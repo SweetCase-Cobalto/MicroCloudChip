@@ -1,0 +1,24 @@
+#login-container {
+    width: 420px;
+    height: 170px;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+#logo {
+    float: left;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+}
+#editor {
+    margin: 10px;
+}
+#id-line {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+#pswd-line {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}

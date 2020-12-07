@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src= "{% static 'app/js/login.js' %}" ></script>
+
+    <link rel='stylesheet' type="text/css" href="{% static 'app/css/login.css' %}"} >
+    <title>Login To MicroCloudChip</title>
+</head>
+<body>
+    <div id='login-container'>
+        <img src="{% static 'app/img/logo.png' %}" id='logo'/>
+        <form method='POST' id='editor'>
+            <div id='id-line'>
+                <label for='id'><b>ID: </b></label>
+                <input type='text' name='id' required ><br>
+            </div>
+            <div id='pswd-line'>
+                <label for='id'><b>PSWD: </b></label>
+                <input type='password' name='pswd' required >
+            </div>
+            <button type='button' id='login-btn'>Login</button>
+        </form>
+    </div>
+</body>
+</html>
