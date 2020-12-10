@@ -1,9 +1,12 @@
+body {
+    background-color: #277BBA;
+    color: white;
+}
+
 #login-container {
     width: 420px;
     height: 170px;
-    border: 1px solid black;
     margin: 10px;
-    box-shadow: 5px 5px;
 }
 
 #logo {
@@ -22,4 +25,11 @@
 #pswd-line {
     margin-top: 5px;
     margin-bottom: 10px;
+}
+#login-btn {
+    width: 100px;
+    height: 20px;
+    font-size: 15px;
+    color: #277BBA;
+    background-color: white;
 }
