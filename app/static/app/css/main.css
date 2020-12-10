@@ -9,3 +9,28 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
+#main-nav {
+    width: 100%;
+    height: 40px;
+    margin: 5px;
+    background-color: #299FD9;
+}
+.material-layout {
+
+}
+.nav-material {
+    margin: 5px;
+    float: left;
+    text-align: center;
+    text-shadow: 4px 4px 4px #aaaaaa;
+}
+.nav-material-unhover {
+    color: white;
+}
+.nav-material-hover {
+    color: gray;
+}
+#title {
+    font-size: large;
+    float: left;
+}

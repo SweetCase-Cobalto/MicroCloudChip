@@ -5,12 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src= "{% static 'app/js/main/designEvent.js' %}" ></script>
+
     <link rel='stylesheet' type="text/css" href="{% static 'app/css/main.css' %}"} >
     <title>MicroCloudChip</title>
 </head>
 <body>
-    {% include 'app/main/header.html' %}
+    
+    <nav id="main-nav">
+        <div class="nav-material nav-material-unhover" id="title">MiniCloudChip</div>
+        <div style="width: 40px; height: 100%; float: left; margin-right: 40px;"></div>
+        <div class="material-layout">
+            <div class="nav-material nav-material-unhover">browser</div>
+            <div class="nav-material nav-material-unhover">setting</div>
+            <div class="nav-material nav-material-unhover">about</div>
+        </div>
+    </nav>
     <div class="left-line" id="heaer-line"></div>
+    
     {% if type == "browser" %}
     {% include 'app/main/browser.html' %}
     {% elif type == "setting" %}
