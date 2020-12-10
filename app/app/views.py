@@ -11,11 +11,15 @@ def login_page(request):
  
 def login(request):
     print(request.POST)
-    return HttpResponseRedirect(reverse('main'))
+    return HttpResponseRedirect(reverse('main-browser'))
+    
+def main_browser(request):
+    context = {"type": "browser"}
+    return render(request, 'app/main.html', context)
 
-def main(request):
-    #return render(request, 'app/login_failed.html')
-    return render(request, 'app/main.html')
+def main_setting(request):
+    context = {"type": "setting"}
+    return render(request, 'app/main.html', context)
 
 def login_failed(request):
     return render(request, 'app/login_failed.html')

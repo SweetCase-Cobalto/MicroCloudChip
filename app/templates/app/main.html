@@ -9,11 +9,16 @@
     <title>MicroCloudChip</title>
 </head>
 <body>
-    <div id="main-header">
-        <h1>MicroCloudChip</h1>
-    </div>
-    <div class="left-line" id="heaer-line">
-
-    </div>
+    {% include 'app/main/header.html' %}
+    <div class="left-line" id="heaer-line"></div>
+    {% if type == "browser" %}
+    {% include 'app/main/browser.html' %}
+    {% elif type == "setting" %}
+    {% include 'app/main/setting.html' %}
+    {% elif type == "about" %}
+    {% include 'app/main/browser.html' %}
+    {% endif %}
+    <div class="left-line" id="heaer-line"></div>
+    {% include 'app/main/footer.html' %}
 </body>
 </html>
