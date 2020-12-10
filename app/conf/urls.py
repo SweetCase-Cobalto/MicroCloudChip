@@ -17,5 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('microcloudchip/', include('app.urls'))
+    path('microcloudchip/', include('app.urls')),
+    path('admin/', admin.site.urls)
 ]

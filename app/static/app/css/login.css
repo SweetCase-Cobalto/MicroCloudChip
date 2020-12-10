@@ -3,6 +3,7 @@
     height: 170px;
     border: 1px solid black;
     margin: 10px;
+    box-shadow: 5px 5px;
 }
 
 #logo {
