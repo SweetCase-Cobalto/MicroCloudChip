@@ -16,13 +16,14 @@
     <div id='login-container'>
         <img src="{% static 'app/img/logo-white.png' %}" id='logo'/>
         <form method='POST' id='editor' action="login">
-            <div id='id-line'>
-                <label for='id'><b>ID: </b></label>
-                <input type='text' name='id' required ><br>
+            <div style="padding-top: 36px"></div>
+            <div class="login-line" id='id-line'>
+                <label for='id' class="login-line-title"><b>ID: </b></label>
+                <input type='text' class="login-line-edit" name='id' required ><br>
             </div>
-            <div id='pswd-line'>
-                <label for='id'><b>PSWD: </b></label>
-                <input type='password' name='pswd' required >
+            <div class="login-line" id='pswd-line'>
+                <label for='id' class="login-line-title"><b>PSWD: </b></label>
+                <input type='password' class="login-line-edit" name='pswd' required >
             </div>
             <button type='button' id='login-btn'>Login</button>
         </form>
