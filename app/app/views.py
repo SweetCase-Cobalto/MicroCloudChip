@@ -21,5 +21,9 @@ def main_setting(request):
     context = {"type": "setting"}
     return render(request, 'app/main.html', context)
 
+def main_about(request):
+    context = {"type": "about"}
+    return render(request, 'app/main.html', context)
+
 def login_failed(request):
     return render(request, 'app/login_failed.html')
