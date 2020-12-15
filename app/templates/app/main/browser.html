@@ -4,12 +4,30 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel='stylesheet' type='text/css' href="{% static 'app/css/browser.css' %}" >
+    <link rel='stylesheet' type='text/css' href="{% static 'app/css/main.css' %}" >
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-    <div id="browser">
-        This is Browser
+    <div class="menu" id="browser-menu">
+        <div>
+            <h2 class="menu-username" id="browser-menu-username">UserName</h2>
+        </div>
+        <div style="height: 1px; width: 100%; background-color: gray;"></div>
+        <div class="menu-list" id="browser-menu-list">
+            <h4 class="menu-item" id="menu-browser-upload">Upload</h4>
+            <h4 class="menu-item" id="menu-browser-new-directory">New Directory</h4>
+            <h4 class="menu-item" id="menu-browser-new-refresh">Refresh</h4>
+            <h4 class="menu-item" id="menu-browser-delete">Delete</h4>
+        </div>
+    </div>
+    <div class="browser-container">
+        <!-- Search Line -->
+        <div class="input-group mb-3" id="browser-search">
+            <span class="input-group-text">Find</span>
+            <input type="text" class="form-control" placeholder="File or Directory Name" aria-describedby="browser-search">
+          </div>
     </div>
 </body>
 </html>
