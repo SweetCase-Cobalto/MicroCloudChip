@@ -17,17 +17,62 @@
         <div style="height: 1px; width: 100%; background-color: gray;"></div>
         <div class="menu-list" id="browser-menu-list">
             <h4 class="menu-item" id="menu-browser-upload">Upload</h4>
+            <h4 class="menu-item" id="menu-browser-download">Download</h4>
             <h4 class="menu-item" id="menu-browser-new-directory">New Directory</h4>
             <h4 class="menu-item" id="menu-browser-new-refresh">Refresh</h4>
             <h4 class="menu-item" id="menu-browser-delete">Delete</h4>
         </div>
     </div>
     <div class="browser-container">
-        <!-- Search Line -->
-        <div class="input-group mb-3" id="browser-search">
-            <span class="input-group-text">Find</span>
-            <input type="text" class="form-control" placeholder="File or Directory Name" aria-describedby="browser-search">
-          </div>
+
+        <!-- Title -->
+        <h2 id="title">Browser</h2>
+        <h3 id="root-text">root>mypage</h3>
+
+        <!-- Layer-->
+        <div id="directory-list">
+            <!-- Title -->
+            <ul class="list-group list-group-horizontal directory-layer">
+                <li class="list-group-item list-group-item-primary col-name">Name</li>
+                <li class="list-group-item list-group-item-primary col-modify">Modify</li>
+                <li class="list-group-item list-group-item-primary col-user">User</li>
+                <li class="list-group-item list-group-item-primary col-size">Size</li>
+            </ul>
+            <!-- Data List-->
+            <!-- 1. Directory -->
+            <ul class="list-group list-group-horizontal directory-layer">
+                <li class="list-group-item col-name">
+                    <input type="checkbox" aria-label="Checkbox for following text input">
+                    <img src="{% static 'app/img/folder.gif' %}" class="directory-img">
+                    <a href="#">Directory 1</a>
+                </li>
+                <li class="list-group-item col-modify">2020/12/31 13:30:31</li>
+                <li class="list-group-item col-user">User1</li>
+                <li class="list-group-item col-size">100 Files</li>
+            </ul>
+            <ul class="list-group list-group-horizontal directory-layer">
+                <li class="list-group-item col-name">
+                    <input type="checkbox" aria-label="Checkbox for following text input">
+                    <img src="{% static 'app/img/folder.gif' %}" class="directory-img">
+                    <a href="#">Directory 2</a>
+                </li>
+                <li class="list-group-item col-modify">2020/12/31 13:30:31</li>
+                <li class="list-group-item col-user">User2</li>
+                <li class="list-group-item col-size">1 File</li>
+            </ul>
+
+            <!-- File -->
+            <ul class="list-group list-group-horizontal directory-layer">
+                <li class="list-group-item col-name">
+                    <input type="checkbox" aria-label="Checkbox for following text input">
+                    <img src="{% static 'app/img/Files.gif' %}" class="directory-img">
+                    <a href="#">File 1</a>
+                </li>
+                <li class="list-group-item col-modify">2020/12/31 13:30:31</li>
+                <li class="list-group-item col-user">User2</li>
+                <li class="list-group-item col-size">1.45G</li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>
