@@ -14,7 +14,7 @@
     
     <div class="menu" id="setting-menu">
         <div>
-            <h2 class="menu-username" id="setting-menu-username">UserName</h2>
+            <h2 class="menu-username" id="setting-menu-username">{{ user_id }}</h2>
         </div>
         <div style="height: 1px; width: 100%; background-color: gray;"></div>
         <div class="menu-list" id="setting-menu-list">
@@ -42,11 +42,16 @@
                 {% else %}
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item col-username" id="id_{{ user }}">{{ user }}</li>
+
                     <form action="setting/modifyuser" id="modify-{{ user }}" method="POST">
                         <input type="hidden" id="user-id" name="user-id" value="{{ user }}" required>
                         <li class="list-group-item col-button"><button type="button" class="btn btn-primary modify-btn" id="{{ user }}">Modify</button></li>
                     </form>
-                    <li class="list-group-item col-button"><button type="button" class="btn btn-danger delete-btn" id="{{ user }}">delete</button></li>
+
+                    <form action="setting/deleteuser-redirection" method="POST" id="delete-{{ user }}">
+                        <input type="hidden" id="user-id" name="user-id" value="{{ user }}" required>
+                        <li class="list-group-item col-button"><button type="button" class="btn btn-danger delete-btn" id="{{ user }}">delete</button></li>
+                    </form>
                 </ul>
                 {% endif %}
                 {% endfor %}

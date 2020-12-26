@@ -20,5 +20,6 @@ urlpatterns = [
     path(r'main/setting/adduser', views.add_user_page, name='add-user'),
     path(r'main/setting/adduser-redirection', views.adduser, name='add-user-redirection'),
     path(r'main/setting/modifyuser', views.modify_user_page, name='modify-user'),
-    path(r'main/setting/modifyuser-redirection', views.modifyuser, name='modify-user-redirection')
+    path(r'main/setting/modifyuser-redirection', views.modifyuser, name='modify-user-redirection'),
+    path(r'main/setting/deleteuser-redirection', views.deleteuser, name="delete-user-redirection")
 ]

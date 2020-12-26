@@ -114,6 +114,16 @@ def modifyuser(request):
             target_user.save()
     return HttpResponseRedirect(reverse('main-setting'))
 
+def deleteuser(request):
+    if(request.method == "POST") and ('user_id' in request.session):
+        target_id = request.POST['user-id']
+
+        if len(User.objects.filter(userId=target_id)) != 0:
+            target_user = User.objects.filter(userId=target_id).first()
+            target_user.delete()
+    return HttpResponseRedirect(reverse('main-setting'))
+
+
 # Browser Section
 
 

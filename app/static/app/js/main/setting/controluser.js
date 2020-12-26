@@ -5,6 +5,10 @@ $(() => {
         document.getElementById(targetFormId).submit();
     });
     $('.delete-btn').click((e) => {
-        console.log(e.target.id);
+        const id = e.target.id;
+        const targetFormId = "delete-" + id;
+        var input = confirm("do you really delete this id?");
+        if(input)
+            document.getElementById(targetFormId).submit();
     });
 });
