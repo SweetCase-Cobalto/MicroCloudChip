@@ -71,7 +71,10 @@ def main_about(request):
 # Setting Section
 def add_user_page(request):
     user_id = request.session['user_id']
-    return render(request, 'app/main/settings_page/adduser.html')
+    if user_id == 'admin':
+        return render(request, 'app/main/settings_page/adduser.html')
+    else:
+        return 'error'
 
 def adduser(request):
     # Is request is post ?& have session
@@ -90,6 +93,26 @@ def adduser(request):
         new_user = User(userId=new_id, pswd=new_pswd)
         new_user.save()
         return HttpResponseRedirect(reverse('main-setting'))
+
+def modify_user_page(request):
+    user_id = request.session['user_id']
+    if user_id == 'admin':
+        target_id = request.POST['user-id']
+        context = {"target_id": target_id}
+        return render(request, 'app/main/settings_page/modifyuser.html', context)
+    else:
+        return 'error'
+
+def modifyuser(request):
+    if(request.method == "POST") and ('user_id' in request.session):
+        target_id = request.POST['target_id']
+        new_pswd = request.POST['new_pswd']
+        
+        if len(User.objects.filter(userId=target_id)) != 0:
+            target_user = User.objects.filter(userId=target_id).first()
+            target_user.pswd = new_pswd
+            target_user.save()
+    return HttpResponseRedirect(reverse('main-setting'))
 
 # Browser Section
 

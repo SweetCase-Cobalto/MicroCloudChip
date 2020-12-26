@@ -4,29 +4,30 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 
-    <link rel='stylesheet' type='text/css' href="{% static 'app/css/setting-adduser.css' %}" >
-    <script type="text/javascript" src= "{% static 'app/js/module/account.js' %}" ></script>    
-    <script type="text/javascript" src= "{% static 'app/js/main/setting/adduser.js' %}" ></script>   
+    <link rel='stylesheet' type='text/css' href="{% static 'app/css/setting-modifyuser.css' %}" >
+    <script type="text/javascript" src="{% static 'app/js/module/account.js' %}" ></script> 
+    <script type="text/javascript" src="{% static 'app/js/main/setting/modifyuser.js' %}"></script>
     
     <link rel='icon' type="image/png" href="{% static 'app/favicon.ico' %}" >
-    <title>Microcloudchip-adduser</title>
+    <title>Microcloudchip-modyfuser</title>
 </head>
 <body>
     <div id="summary">
-        <h1>Add User</h1>
+        <h1>Modify User</h1>
         <h3>Caution</h3>
         <p>ID Must be over 4 ~ 12 alphabets</p>
         <p>PSWD Must be over 4 ~ 16 charset</p>
     </div>
-    <div id="adduser-layout">
-        <form method="POST" id="form-adduser" name="adduserform" action="/microcloudchip/main/setting/adduser-redirection">
+    <div id="modifyuser-layout">
+        <form method="POST" id="form-modifyuser" name="modifyuserform" action="/microcloudchip/main/setting/modifyuser-redirection">
             <div>
-                <label for="new_id"><b>ID: </b></label>
-                <input type='text' class="form-control" id="new_id" name="new_id"><br>
+                <label for="target_id"><b>ID: </b></label>
+                <input type='text' class="form-control" id="target_id" name="target_id" value="{{ target_id }}" readonly><br>
                 
                 <label for="new_pswd"><b>PSWD: </b></label>
                 <input type="password" class="form-control" id="new_pswd" name="new_pswd"><br>
@@ -42,7 +43,8 @@
             </form>
         </div>
     </div>
-
+    
+    
     <div id="footer">
         {% include 'app/main/footer.html' %}
     </div>

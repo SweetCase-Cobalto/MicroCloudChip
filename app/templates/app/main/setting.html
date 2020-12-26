@@ -8,9 +8,7 @@
     <link rel='stylesheet' type='text/css' href="{% static 'app/css/main.css' %}" >
     <link rel='stylesheet' type='text/css' href="{% static 'app/css/setting.css' %}" >
     <script type="text/javascript" src= "{% static 'app/js/main/setting/controluser.js' %}" ></script>
-    
-    
-    
+
 </head>
 <body>
     
@@ -36,12 +34,18 @@
                 {% if user == "admin" %}
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item col-username" id="admin">admin</li>
-                    <li class="list-group-item col-button"><button type="button" class="btn btn-primary modify-btn" id="admin">Modify</button></li>
+                    <form action="setting/modifyuser" id="modify-admin" method="POST">
+                        <input type="hidden" id="user-id" name="user-id" value="admin" required>
+                        <li class="list-group-item col-button"><button type="button" class="btn btn-primary modify-btn" id="admin">Modify</button></li>
+                    </form>
                 </ul>
                 {% else %}
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item col-username" id="id_{{ user }}">{{ user }}</li>
-                    <li class="list-group-item col-button"><button type="button" class="btn btn-primary modify-btn" id="{{ user }}">Modify</button></li>
+                    <form action="setting/modifyuser" id="modify-{{ user }}" method="POST">
+                        <input type="hidden" id="user-id" name="user-id" value="{{ user }}" required>
+                        <li class="list-group-item col-button"><button type="button" class="btn btn-primary modify-btn" id="{{ user }}">Modify</button></li>
+                    </form>
                     <li class="list-group-item col-button"><button type="button" class="btn btn-danger delete-btn" id="{{ user }}">delete</button></li>
                 </ul>
                 {% endif %}

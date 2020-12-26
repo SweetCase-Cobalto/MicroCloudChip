@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
 
+
     # Login
     path(r'', views.login_page, name='login_page'),
     path(r'login', views.login, name='login'),
@@ -17,6 +18,7 @@ urlpatterns = [
 
     # Setting Section
     path(r'main/setting/adduser', views.add_user_page, name='add-user'),
-    path(r'main/setting/adduser-redirection', views.adduser, name='add-user-redirection')
-    
+    path(r'main/setting/adduser-redirection', views.adduser, name='add-user-redirection'),
+    path(r'main/setting/modifyuser', views.modify_user_page, name='modify-user'),
+    path(r'main/setting/modifyuser-redirection', views.modifyuser, name='modify-user-redirection')
 ]
