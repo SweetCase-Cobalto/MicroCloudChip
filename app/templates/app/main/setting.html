@@ -1,11 +1,50 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel='stylesheet' type='text/css' href="{% static 'app/css/main.css' %}" >
+    <link rel='stylesheet' type='text/css' href="{% static 'app/css/setting.css' %}" >
     
 </head>
 <body>
-    <h1>This is Setting</h1>
+    
+    <div class="menu" id="setting-menu">
+        <div>
+            <h2 class="menu-username" id="setting-menu-username">UserName</h2>
+        </div>
+        <div style="height: 1px; width: 100%; background-color: gray;"></div>
+        <div class="menu-list" id="setting-menu-list">
+            <h4 class="menu-item" id="menu-setting-users">Users</h4>
+        </div>
+    </div>
+    <div id="setting-container">
+        <h2 class="title">Setting</h2>
+        <h3 class="sub-title">Users</h3>
+
+        <div id="main-layer">
+            <h4 style="margin: 20px">Username</h4>
+            <div class="line"></div>
+            <div id="list">
+                <!-- Get User Data -->
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item col-username" id="admin">admin</li>
+                    <li class="list-group-item col-button" id="modify-admin"><button type="button" class="btn btn-primary">Modify</button></li>
+                  </ul>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item col-username" id="username-user1">user1</li>
+                    <li class="list-group-item col-button" id="modify-user1"><button type="button" class="btn btn-primary">Modify</button></li>
+                    <li class="list-group-item col-button" id="delete-user1"><button type="button" class="btn btn-danger">delete</button></li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal">
+                      <li class="list-group-item col-username" id="username-user1">Username 2</li>
+                      <li class="list-group-item col-button" id="modify-user1"><button type="button" class="btn btn-primary">Modify</button></li>
+                      <li class="list-group-item col-button" id="delete-user1"><button type="button" class="btn btn-danger">delete</button></li>
+                    </ul>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

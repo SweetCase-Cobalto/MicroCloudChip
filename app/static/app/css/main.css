@@ -2,8 +2,6 @@ nav {
     background-color: #277BBA;
     color: white;
 }
-
-
 .menu {
     float: left;
     width: 240px;
@@ -11,6 +9,7 @@ nav {
     background-color: #E3EAF6;
     border: gray 2px solid;
     padding: 10px;
+    float: left;
 }
 .menu-username {
     font-weight: bold;
@@ -32,4 +31,14 @@ nav {
     position: fixed;
     bottom: 0;
     padding: 5px;
+}
+
+.title {
+    color: #277BBA;
+    font-weight: bold;
+    margin-left: 30px;
+    margin-top: 50px;
+}
+#logout-btn {
+    cursor: point;
 }

@@ -2,7 +2,6 @@ html, body {
     height: 100%;
 }
 #browser-menu {
-    float: left;
 }
 #menu-browser-upload {
     font-weight: bold;
@@ -12,12 +11,6 @@ html, body {
 }
 .browser-container {
     float: left;
-}
-#title {
-    color: #277BBA;
-    font-weight: bold;
-    margin-left: 30px;
-    margin-top: 50px;
 }
 #root-text {
     font-weight: bold;

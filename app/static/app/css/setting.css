@@ -1,0 +1,40 @@
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+#setting-container {
+    float: left;
+}
+
+.sub-title {
+    font-weight: bold;
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+.line {
+    width: 1000px;
+    height: 1px;
+    background-color: gray;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+#main-layer {
+    margin-left: 70px;
+    margin-top: 40px;
+    width: 100%;
+}
+#list {
+    margin-left: 20px;
+    width: 1000px;
+}
+.col-username {
+    width: 90%;
+    font-size: 20px;
+}
+.coll-button {
+    width: 10px;
+}
