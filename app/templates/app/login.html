@@ -15,15 +15,15 @@
 <body>
     <div id='login-container'>
         <img src="{% static 'app/img/logo-white.png' %}" id='logo'/>
-        <form method='POST' id='editor' action="login">
+        <form method='POST' id='editor' action="login" name="loginform">
             <div style="padding-top: 36px"></div>
             <div class="login-line" id='id-line'>
                 <label for='id' class="login-line-title"><b>ID: </b></label>
-                <input type='text' class="login-line-edit form-control" name='id' required ><br>
+                <input type='text' class="login-line-edit form-control" id='id' name="id" required ><br>
             </div>
             <div class="login-line" id='pswd-line'>
                 <label for='pswd' class="login-line-title"><b>PSWD: </b></label>
-                <input type='password' class="login-line-edit form-control" name='pswd' required >
+                <input type='password' class="login-line-edit form-control" id='pswd' name="pswd" required >
             </div>
             <button type='button' id='login-btn'>Login</button>
         </form>
