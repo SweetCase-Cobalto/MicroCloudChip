@@ -3,13 +3,12 @@ const _login = (id, pswd) => {
         ID는 4 ~ 12자 영어만
         PSWD는 4 ~ 16자 모든 문자 허용
     */
-    const reID = /^[a-zA-Z]{4,12}$/;
-    if(!reID.test(id)) {
+    if(!check_id(id)) {
         alert('ID Must Be 6~12 length of alphabet words');
         return;
     }
-    else if(pswd.length < 4 || pswd.length > 16) {
-        alert('PSWD Must be 8 ~ 16 length of alphabet words');
+    else if(!check_pswd(pswd)) {
+        alert('PSWD Must be 6 ~ 16 length of alphabet words');
         return;
     }
     document.getElementById('editor').submit();

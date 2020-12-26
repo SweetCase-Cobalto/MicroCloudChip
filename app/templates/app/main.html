@@ -29,8 +29,10 @@
                         {% endif %}
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Watcher</a>
+                        <a class="nav-link disabled">Watcher</a>
                     </li>
+                    <!-- 일단 setting은 admin 만 사용 가능하게 설정 -->
+                    {% if user_id == "admin" %}
                     <li class="nav-item">
                         {% if type == "setting" %}
                         <a class="nav-link active" aria-current="page" href="setting">Setting</a>
@@ -38,6 +40,7 @@
                         <a class="nav-link" href="setting">Setting</a>
                         {% endif %}
                     </li>
+                    {% endif %}
                     <li class="nav-item">
                         {% if type == "about" %}
                         <a class="nav-link active" aria-current="page" href="about">About</a>
@@ -46,7 +49,7 @@
                         {% endif %}
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="logout-btn" href="#">Logout</a>
+                        <a class="nav-link" id="logout-btn" href="logout">Logout</a>
                     </li>
                 </ul>
               </div>

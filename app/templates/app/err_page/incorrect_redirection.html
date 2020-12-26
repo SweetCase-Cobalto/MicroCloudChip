@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    
+    <title>Error Page</title>
+</head>
+<body>
+    <div id="msg">{{ error_message }}</div>
+    <div id="url">{{ back_url }}</div>
+    <script>
+        var error_msg = $('#msg').text();
+        var next_url = $('#url').text();
+        alert(error_msg);
+        location.href = next_url;
+    </script>
+</body>
+</html>
