@@ -55,3 +55,6 @@ html, body {
 .directory-item {
     cursor: pointer;
 }
+.file-item {
+    cursor: pointer;
+}

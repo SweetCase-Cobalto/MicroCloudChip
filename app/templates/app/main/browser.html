@@ -86,9 +86,14 @@
                     <!-- File -->
                     <ul class="list-group list-group-horizontal directory-layer">
                         <li class="list-group-item col-name">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                            <img src="{% static 'app/img/Files.gif' %}" class="directory-img">
-                            <a href="#">{{ file.filename }}</a>
+                            <form action="download" method="GET" id="{{ file.filename }}-form">
+                                <input type="checkbox" aria-label="Checkbox for following text input">
+
+                                <!-- Data -->
+                                <input type="hidden" id="selected-item" name="selected-item" value="{{ file.filename }}">
+                                <img src="{% static 'app/img/Files.gif' %}" class="directory-img">
+                                <a class="file-item" id="{{ file.filename }}">{{ file.filename }}</a>
+                            </form>
                         </li>
                         <li class="list-group-item col-modify">
                             {{ file.modify_date.year }}/{{ file.modify_date.month }}/{{ file.modify_date.date }} 

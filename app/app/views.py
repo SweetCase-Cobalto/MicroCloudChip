@@ -2,9 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from django.http import HttpResponse
 
 import os
 import json
+import mimetypes
 
 from .models import User
 from .engine.browser.browser_module import *
@@ -60,9 +62,6 @@ def main_browser(request):
     if request.method == "POST":
         new_root = request.POST['selected-item']
         is_back = int(request.POST['isback'])
-
-        print(is_back)
-        
         if is_back == 0:
             current_path = current_path + new_root + '/'
         elif is_back == 1:
@@ -179,5 +178,22 @@ def deleteuser(request):
     return HttpResponseRedirect(reverse('main-setting'))
 
 # Browser Section
+
+# Download File
+def download_file(request):
+    if request.method == "GET":
+        target_file = request.GET['selected-item']
+        current_path = request.session[SESSION_CURRENT_PATH]
+        full_root = f'{ABSOLUTE_ROOT}{current_path}{target_file}'
+
+        if os.path.exists(full_root): 
+            content_type, _ = mimetypes.guess_type(full_root)
+            with open(full_root, 'r') as f:
+                response = HttpResponse(f, content_type=content_type)
+                response['Content-Disposition'] = f'attachment; filename={target_file}'
+            return response
+        else:
+            pass
+    return HttpResponseRedirect(reverse('main-browser'))
 
 # Error
