@@ -4,17 +4,25 @@ from django.template import loader
 from django.urls import reverse
 
 import os
+import json
 
 from .models import User
+from .engine.browser.browser_module import *
+
+SESSION_ID = "user_id"
+SESSION_CURRENT_PATH = "current_path"
+
+ABSOLUTE_ROOT = get_main_root("app/config.json")
 
 #save_session_function
 def save_session(request, user_id, user_pswd):
-    request.session['user_id'] = user_id
+    request.session[SESSION_ID] = user_id
+    request.session[SESSION_CURRENT_PATH] = ''
 
 # Create your views here.
 def login_page(request):
     # 이미 한번 로그인 해서 쳐 들어간 경우
-    if 'user_id' in request.session:
+    if SESSION_ID in request.session:
         return HttpResponseRedirect(reverse('main-browser'))
     # 처음이에요
     return render(request, 'app/login.html')
@@ -38,19 +46,40 @@ def login_failed(request):
 
 # Logout
 def logout(request):
-    if 'user_id' in request.session:
+    if SESSION_ID in request.session:
         request.session.clear()
     return HttpResponseRedirect(reverse('login_page'))
 
 # In Main Section
 def main_browser(request):
     # get id from session
-    user_id = request.session['user_id']
-    context = {"type": "browser", "user_id": user_id}
+    user_id = request.session[SESSION_ID]
+    current_path = request.session[SESSION_CURRENT_PATH]
+
+    # get list
+    root = f'{ABSOLUTE_ROOT}/{current_path}'
+    file_list = get_list(root)
+
+    for file_data in file_list:
+        if file_data[DATA_TYPE] == CATEGORY_FILE:
+            if file_data[DATA_SIZE_TYPE] == SIZE_TYPE_KB:
+                file_data[DATA_SIZE] = round(file_data[DATA_SIZE]/1000, 3)
+            elif file_data[DATA_SIZE_TYPE] == SIZE_TYPE_MB:
+                file_data[DATA_SIZE] = round(file_data[DATA_SIZE]/(1000**3), 3)
+            else:
+                file_data[DATA_SIZE] = round(file_data[DATA_SIZE]/(1000**6), 3) 
+
+
+    context = {
+        "type": "browser", 
+        "user_id": user_id, 
+        "file_list": file_list,
+        "root": current_path + "/"
+    }
     return render(request, 'app/main.html', context)
 
 def main_setting(request):
-    user_id = request.session['user_id']
+    user_id = request.session[SESSION_ID]
 
     # Only admin
 
@@ -64,13 +93,13 @@ def main_setting(request):
     return render(request, 'app/main.html', context)
 
 def main_about(request):
-    user_id = request.session['user_id']
+    user_id = request.session[SESSION_ID]
     context = {"type": "about", "user_id": user_id}
     return render(request, 'app/main.html', context)
 
 # Setting Section
 def add_user_page(request):
-    user_id = request.session['user_id']
+    user_id = request.session[SESSION_ID]
     if user_id == 'admin':
         return render(request, 'app/main/settings_page/adduser.html')
     else:
@@ -78,7 +107,7 @@ def add_user_page(request):
 
 def adduser(request):
     # Is request is post ?& have session
-    if (request.method == "POST") and ('user_id' in request.session):
+    if (request.method == "POST") and (SESSION_ID in request.session):
         # Check This id is aleady exist
         new_id = request.POST['new_id']
         new_pswd = request.POST['new_pswd']
@@ -95,7 +124,7 @@ def adduser(request):
         return HttpResponseRedirect(reverse('main-setting'))
 
 def modify_user_page(request):
-    user_id = request.session['user_id']
+    user_id = request.session[SESSION_ID]
     if user_id == 'admin':
         target_id = request.POST['user-id']
         context = {"target_id": target_id}
@@ -104,7 +133,7 @@ def modify_user_page(request):
         return 'error'
 
 def modifyuser(request):
-    if(request.method == "POST") and ('user_id' in request.session):
+    if(request.method == "POST") and (SESSION_ID in request.session):
         target_id = request.POST['target_id']
         new_pswd = request.POST['new_pswd']
         
@@ -115,7 +144,7 @@ def modifyuser(request):
     return HttpResponseRedirect(reverse('main-setting'))
 
 def deleteuser(request):
-    if(request.method == "POST") and ('user_id' in request.session):
+    if(request.method == "POST") and (SESSION_ID in request.session):
         target_id = request.POST['user-id']
 
         if len(User.objects.filter(userId=target_id)) != 0:

@@ -25,6 +25,8 @@ html, body {
     margin-top: 40px;
     margin-left: 80px;
     margin-right: 80px;
+    font-size: 15px;
+    font-weight: bold;
 }
 .directory-layer {
     width: 1400px;

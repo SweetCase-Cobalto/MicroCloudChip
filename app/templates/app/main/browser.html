@@ -27,7 +27,7 @@
 
         <!-- Title -->
         <h2 class="title">Browser</h2>
-        <h3 id="root-text">root>mypage</h3>
+        <h3 id="root-text">{{ root }}<h3>
 
         <!-- Layer-->
         <div id="directory-list">
@@ -39,39 +39,44 @@
                 <li class="list-group-item list-group-item-primary col-size">Size</li>
             </ul>
             <!-- Data List-->
-            <!-- 1. Directory -->
-            <ul class="list-group list-group-horizontal directory-layer">
-                <li class="list-group-item col-name">
-                    <input type="checkbox" aria-label="Checkbox for following text input">
-                    <img src="{% static 'app/img/folder.gif' %}" class="directory-img">
-                    <a href="#">Directory 1</a>
-                </li>
-                <li class="list-group-item col-modify">2020/12/31 13:30:31</li>
-                <li class="list-group-item col-user">User1</li>
-                <li class="list-group-item col-size">100 Files</li>
-            </ul>
-            <ul class="list-group list-group-horizontal directory-layer">
-                <li class="list-group-item col-name">
-                    <input type="checkbox" aria-label="Checkbox for following text input">
-                    <img src="{% static 'app/img/folder.gif' %}" class="directory-img">
-                    <a href="#">Directory 2</a>
-                </li>
-                <li class="list-group-item col-modify">2020/12/31 13:30:31</li>
-                <li class="list-group-item col-user">User2</li>
-                <li class="list-group-item col-size">1 File</li>
-            </ul>
-
-            <!-- File -->
-            <ul class="list-group list-group-horizontal directory-layer">
-                <li class="list-group-item col-name">
-                    <input type="checkbox" aria-label="Checkbox for following text input">
-                    <img src="{% static 'app/img/Files.gif' %}" class="directory-img">
-                    <a href="#">File 1</a>
-                </li>
-                <li class="list-group-item col-modify">2020/12/31 13:30:31</li>
-                <li class="list-group-item col-user">User2</li>
-                <li class="list-group-item col-size">1.45G</li>
-            </ul>
+            {% for file in file_list %}
+                {% if file.type == "directory" %}
+                    <!-- 1. Directory -->
+                    <ul class="list-group list-group-horizontal directory-layer">
+                        <li class="list-group-item col-name">
+                            <input type="checkbox" aria-label="Checkbox for following text input">
+                            <img src="{% static 'app/img/folder.gif' %}" class="directory-img">
+                            <a href="#">{{ file.filename }}</a>
+                        </li>
+                        <li class="list-group-item col-modify">
+                            {{ file.modify_date.year }}/{{ file.modify_date.month }}/{{ file.modify_date.date }} 
+                            {{ file.modify_date.hour }}:{{ file.modify_date.min }}:{{ file.modify_date.sec }}
+                        </li>
+                        <li class="list-group-item col-user">{{ file.owner }}</li>
+                        <li class="list-group-item col-size">{{ file.size }} Files</li>
+                    </ul>
+                {% else %}   
+                    <!-- File -->
+                    <ul class="list-group list-group-horizontal directory-layer">
+                        <li class="list-group-item col-name">
+                            <input type="checkbox" aria-label="Checkbox for following text input">
+                            <img src="{% static 'app/img/Files.gif' %}" class="directory-img">
+                            <a href="#">{{ file.filename }}</a>
+                        </li>
+                        <li class="list-group-item col-modify">2020/12/31 13:30:31</li>
+                        <li class="list-group-item col-user">{{ file.owner }}</li>
+                        {% if file.size_type == "byte" %}
+                            <li class="list-group-item col-size">{{ file.size }} byte</li>
+                        {% elif file.size_type == "KB" %}
+                            <li class="list-group-item col-size">{{ file.size }} KB</li>
+                        {% elif file.size_type == "MB" %}
+                            <li class="list-group-item col-size">{{ file.size }} MB</li>
+                        {% else %}
+                            <li class="list-group-item col-size">{{ file.size }} GB</li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            {%  endfor %}
         </div>
     </div>
 </body>
