@@ -8,6 +8,8 @@
     <link rel='stylesheet' type='text/css' href="{% static 'app/css/browser.css' %}" >
     <link rel='stylesheet' type='text/css' href="{% static 'app/css/main.css' %}" >
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src= "{% static 'app/js/main/browser/browser.js' %}" ></script>
+
 </head>
 <body>
     <div class="menu" id="browser-menu">
@@ -38,15 +40,40 @@
                 <li class="list-group-item list-group-item-primary col-user">User</li>
                 <li class="list-group-item list-group-item-primary col-size">Size</li>
             </ul>
+
+            <!-- back button -->
+            {% if root != "/" %}
+                <ul class="list-group list-group-horizontal directory-layer">
+                    <li class="list-group-item col-name">
+                        <form action="browser" method="POST" id="back-form">
+                            <input type="checkbox" aria-label="Checkbox for following text input">
+                            <img src="{% static 'app/img/folder.gif' %}" class="directory-img">
+                            <input type="hidden" id="selected-item" name="selected-item" value="back">
+                            <input type="hidden" id="isback" name="isback" value="1">
+                            <a class="directory-item" id="back">..</a>
+                        </form>
+                    </li>
+                    <li class="list-group-item col-modify">
+                        ..
+                    </li>
+                    <li class="list-group-item col-user">None</li>
+                    <li class="list-group-item col-size">0 byte</li>
+                </ul>
+            {% endif %}
             <!-- Data List-->
             {% for file in file_list %}
                 {% if file.type == "directory" %}
                     <!-- 1. Directory -->
                     <ul class="list-group list-group-horizontal directory-layer">
                         <li class="list-group-item col-name">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                            <img src="{% static 'app/img/folder.gif' %}" class="directory-img">
-                            <a href="#">{{ file.filename }}</a>
+                            <form action="browser" method="POST" id="{{ file.filename }}-form">
+                                <input type="checkbox" aria-label="Checkbox for following text input">
+                                <img src="{% static 'app/img/folder.gif' %}" class="directory-img">
+                                <input type="hidden" id="selected-item" name="selected-item" value="{{ file.filename }}">
+                                <input type="hidden" id="isback" name="isback" value="0">
+                                <a class="directory-item" id="{{ file.filename }}">{{ file.filename }}</a>
+                            </form>
+                            
                         </li>
                         <li class="list-group-item col-modify">
                             {{ file.modify_date.year }}/{{ file.modify_date.month }}/{{ file.modify_date.date }} 
@@ -63,7 +90,10 @@
                             <img src="{% static 'app/img/Files.gif' %}" class="directory-img">
                             <a href="#">{{ file.filename }}</a>
                         </li>
-                        <li class="list-group-item col-modify">2020/12/31 13:30:31</li>
+                        <li class="list-group-item col-modify">
+                            {{ file.modify_date.year }}/{{ file.modify_date.month }}/{{ file.modify_date.date }} 
+                            {{ file.modify_date.hour }}:{{ file.modify_date.min }}:{{ file.modify_date.sec }}
+                        </li>
                         <li class="list-group-item col-user">{{ file.owner }}</li>
                         {% if file.size_type == "byte" %}
                             <li class="list-group-item col-size">{{ file.size }} byte</li>

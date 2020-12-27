@@ -17,7 +17,7 @@ ABSOLUTE_ROOT = get_main_root("app/config.json")
 #save_session_function
 def save_session(request, user_id, user_pswd):
     request.session[SESSION_ID] = user_id
-    request.session[SESSION_CURRENT_PATH] = ''
+    request.session[SESSION_CURRENT_PATH] = '/'
 
 # Create your views here.
 def login_page(request):
@@ -56,7 +56,34 @@ def main_browser(request):
     user_id = request.session[SESSION_ID]
     current_path = request.session[SESSION_CURRENT_PATH]
 
+    # New List
+    if request.method == "POST":
+        new_root = request.POST['selected-item']
+        is_back = int(request.POST['isback'])
+
+        print(is_back)
+        
+        if is_back == 0:
+            current_path = current_path + new_root + '/'
+        elif is_back == 1:
+            path_tokens = current_path.split('/')
+            # is not super root
+            if len(path_tokens) > 2:
+                del path_tokens[-2]
+                
+                # is super root after remove path
+                if len(path_tokens) == 2:
+                    current_path = "/"
+                else:
+                    current_path = "/"
+                    for path in path_tokens:
+                        if path != '':
+                            current_path += path
+                            current_path += "/"
+
     # get list
+    print(current_path)
+    request.session[SESSION_CURRENT_PATH] = current_path
     root = f'{ABSOLUTE_ROOT}/{current_path}'
     file_list = get_list(root)
 
@@ -65,17 +92,16 @@ def main_browser(request):
             if file_data[DATA_SIZE_TYPE] == SIZE_TYPE_KB:
                 file_data[DATA_SIZE] = round(file_data[DATA_SIZE]/1000, 3)
             elif file_data[DATA_SIZE_TYPE] == SIZE_TYPE_MB:
-                file_data[DATA_SIZE] = round(file_data[DATA_SIZE]/(1000**3), 3)
-            else:
-                file_data[DATA_SIZE] = round(file_data[DATA_SIZE]/(1000**6), 3) 
-
-
+                file_data[DATA_SIZE] = round(file_data[DATA_SIZE]/(1000**2), 3)
+            elif file_data[DATA_SIZE_TYPE] == SIZE_TYPE_GB:
+                file_data[DATA_SIZE] = round(file_data[DATA_SIZE]/(1000**3), 3) 
     context = {
         "type": "browser", 
         "user_id": user_id, 
         "file_list": file_list,
-        "root": current_path + "/"
+        "root": current_path
     }
+    
     return render(request, 'app/main.html', context)
 
 def main_setting(request):
@@ -152,10 +178,6 @@ def deleteuser(request):
             target_user.delete()
     return HttpResponseRedirect(reverse('main-setting'))
 
-
 # Browser Section
-
-
-
 
 # Error

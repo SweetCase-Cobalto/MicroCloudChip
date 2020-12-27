@@ -62,9 +62,9 @@ def get_list(target_root):
             # Chekcing File
             if file_size < 1000:
                 size_type = SIZE_TYPE_BYTE
-            elif file_size < 1000**3:
+            elif file_size < 1000**2:
                 size_type = SIZE_TYPE_KB
-            elif file_size < 1000**6:
+            elif file_size < 1000**3:
                 size_type = SIZE_TYPE_MB
             else:
                 size_type = SIZE_TYPE_GB
