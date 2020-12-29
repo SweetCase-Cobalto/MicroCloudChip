@@ -3,10 +3,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 from django.http import HttpResponse
+from django.core.files.storage import FileSystemStorage
 
 import os
 import json
 import mimetypes
+import shutil
 
 from .models import User
 from .engine.browser.browser_module import *
@@ -196,4 +198,36 @@ def download_file(request):
             pass
     return HttpResponseRedirect(reverse('main-browser'))
 
+# Upload File
+def upload_file(request):
+    if request.method == 'POST':
+
+        # Get Current Root
+        current_path = request.session[SESSION_CURRENT_PATH]
+
+        files = request.FILES.getlist('upload-files')
+        for file_data in files:
+            filename = str(file_data)
+            full_path = ABSOLUTE_ROOT + current_path + filename
+            
+            with open (full_path, 'wb') as f:
+                for chunk in file_data.chunks():
+                    f.write(chunk)
+            
+    return HttpResponseRedirect(reverse('main-browser'))
+    
+def make_new_directory(request):
+    if request.method == "POST":
+        current_path = request.session[SESSION_CURRENT_PATH]
+        new_directory_name = request.POST['new-directory-name']
+        full_path = ABSOLUTE_ROOT + current_path + new_directory_name
+
+        # Search same name of file
+        if os.path.isdir(full_path):
+            err_msg = "directory is aleady exist!"
+            context = {"error_message": err_msg, "back_url": "/microcloudchip/main/browser"}
+            return render(request, 'app/err_page/incorrect_redirection.html', context)
+        # ADD New Diredtory
+        os.mkdir(full_path)
+    return HttpResponseRedirect(reverse('main-browser'))
 # Error

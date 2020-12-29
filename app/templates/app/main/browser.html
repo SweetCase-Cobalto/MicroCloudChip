@@ -9,6 +9,7 @@
     <link rel='stylesheet' type='text/css' href="{% static 'app/css/main.css' %}" >
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src= "{% static 'app/js/main/browser/browser.js' %}" ></script>
+    <script type="text/javascript" src= "{% static 'app/js/module/browser.js' %}" ></script>
 
 </head>
 <body>
@@ -18,10 +19,25 @@
         </div>
         <div style="height: 1px; width: 100%; background-color: gray;"></div>
         <div class="menu-list" id="browser-menu-list">
-            <h4 class="menu-item" id="menu-browser-upload">Upload</h4>
+
+            <!-- upload form -->
+            <form id="upload-form" action="/microcloudchip/upload" method="POST" enctype="multipart/form-data">
+                <label for="upload-files" style="margin-top: -5px; margin-bottom: -5px">
+                    <h4 class="menu-item" id="menu-browser-upload">Upload</h4>
+                </label>
+                <input type="file" multiple id="upload-files" name='upload-files'>
+                <input type="submit" style="visibility: hidden;" id="go-to-upload-btn" value="upload">
+            </form>
+
             <h4 class="menu-item" id="menu-browser-download">Download</h4>
-            <h4 class="menu-item" id="menu-browser-new-directory">New Directory</h4>
-            <h4 class="menu-item" id="menu-browser-new-refresh">Refresh</h4>
+
+            <!-- Make New Directory -->
+            <form id="new-directory-form" action="/microcloudchip/new-directory" method="POST">
+                <label for="new-directory-name" style="margin-top: -5px; margin-bottom: -5px">
+                    <h4 class="menu-item" id="menu-browser-new-directory">New Directory</h4>
+                </label>
+                <input type="text" style="visibility: hidden" name="new-directory-name" id="new-directory-name">
+            </form>
             <h4 class="menu-item" id="menu-browser-delete">Delete</h4>
         </div>
     </div>

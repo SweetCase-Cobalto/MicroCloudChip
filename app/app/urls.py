@@ -18,6 +18,8 @@ urlpatterns = [
 
     # Browser Section
     re_path(r'download/$', views.download_file),
+    path(r'upload', views.upload_file),
+    path(r'new-directory', views.make_new_directory),
 
     # Setting Section
     path(r'main/setting/adduser', views.add_user_page, name='add-user'),
