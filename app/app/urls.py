@@ -8,8 +8,8 @@ urlpatterns = [
     # Login
     path(r'', views.login_page, name='login_page'),
     path(r'login', views.login, name='login'),
-    path(r'login_failed', views.login_failed, name='login-failed'),
     path(r'main/logout', views.logout, name='logout'),
+    path(r'login_failed', views.login_failed, name='login-failed'),
 
     # Main Page
     path(r'main/browser', views.main_browser, name='main-browser'),
@@ -28,5 +28,8 @@ urlpatterns = [
     path(r'main/setting/adduser-redirection', views.adduser, name='add-user-redirection'),
     path(r'main/setting/modifyuser', views.modify_user_page, name='modify-user'),
     path(r'main/setting/modifyuser-redirection', views.modifyuser, name='modify-user-redirection'),
-    path(r'main/setting/deleteuser-redirection', views.deleteuser, name="delete-user-redirection")
+    path(r'main/setting/deleteuser-redirection', views.deleteuser, name="delete-user-redirection"),
+
+    # Access Error
+    path(r'access_denied', views.access_denied, name="access-denied")
 ]

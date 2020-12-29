@@ -2,7 +2,12 @@
 var selectedDirectoryList = [];
 var selectedFileList = [];
 
+
 $(() => {
+    
+    // Refresh event must be empty
+    $(window).bind('beforeunload', (e) => {
+    });
     
     /* Menu buttons */
     // upload button event when file selected

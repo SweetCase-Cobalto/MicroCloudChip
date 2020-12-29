@@ -1,6 +1,7 @@
 import json
 import os, sys
 import time
+import zipfile
 
 CATEGORY_DIRECTORY  = "directory"
 CATEGORY_FILE       = "file"
@@ -97,9 +98,24 @@ def get_list(target_root):
         result_list = only_dir_list + only_file_list
     return result_list
 
-if __name__=="__main__":
-    main_root = get_main_root("config.json")
-    result_list = get_list(main_root)
+# Get Multiple Zip File
+def get_file_archive(archive_name, directory_list, file_list, absolute_root, current_path):
+    zfile = zipfile.ZipFile(archive_name, 'w', zipfile.ZIP_DEFLATED)
+
+    if (len(directory_list) == 1) and (directory_list[0] == ''):
+        del directory_list[0]
+    if (len(file_list) == 1) and (file_list[0] == ''):
+        del file_list[0]
     
-    for data in result_list:
-        print(data)
+    for directory in directory_list:
+        directory_full_root = absolute_root + current_path + directory
+        for root, dirs, files in os.walk(directory_full_root):
+
+            for file in files:
+                zfile.write(os.path.join(root, file), os.path.join(root, file)[len(absolute_root):])
+
+    for _file in file_list:
+        file_full_root = absolute_root + current_path + _file
+        with open(file_full_root, 'rb') as f:
+            zfile.write(file_full_root, current_path+_file)
+    zfile.close()

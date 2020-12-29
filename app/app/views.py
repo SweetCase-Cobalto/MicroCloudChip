@@ -14,8 +14,8 @@ import zipfile
 from .models import User
 from .engine.browser.browser_module import *
 
-SESSION_ID = "user_id"
-SESSION_CURRENT_PATH = "current_path"
+SESSION_ID = "user_id"                  # 세션-아이디 키
+SESSION_CURRENT_PATH = "current_path"   # 세션-현재 경로
 
 ABSOLUTE_ROOT = get_main_root("app/config.json")
 
@@ -26,7 +26,7 @@ def save_session(request, user_id, user_pswd):
 
 # Create your views here.
 def login_page(request):
-    # 이미 한번 로그인 해서 쳐 들어간 경우
+    # 이미 한번 로그인 해서 들어간 경우
     if SESSION_ID in request.session:
         return HttpResponseRedirect(reverse('main-browser'))
     # 처음이에요
@@ -58,11 +58,17 @@ def logout(request):
 # In Main Section
 def main_browser(request):
     # get id from session
-    user_id = request.session[SESSION_ID]
-    current_path = request.session[SESSION_CURRENT_PATH]
+    try:
+        user_id = request.session[SESSION_ID]
+        current_path = request.session[SESSION_CURRENT_PATH]
+    except Exception as e:
+        # Key가 없는 경우 이는 불법으로 접근한 경우
+        return HttpResponseRedirect(reverse('access-denied'))
 
-    # New List
+    # 리스트 이동 알고리즘
     if request.method == "POST":
+        root_buffer = current_path
+
         new_root = request.POST['selected-item']
         is_back = int(request.POST['isback'])
         if is_back == 0:
@@ -83,10 +89,17 @@ def main_browser(request):
                             current_path += path
                             current_path += "/"
 
+    # Session에 갱신
     request.session[SESSION_CURRENT_PATH] = current_path
     root = f'{ABSOLUTE_ROOT}{current_path}'
-    file_list = get_list(root)
-
+    try:
+        file_list = get_list(root)
+    except FileNotFoundError: # Refresh
+        current_path = request.session[SESSION_CURRENT_PATH] = root_buffer
+        root = f'{ABSOLUTE_ROOT}{current_path}'
+        file_list = get_list(root)
+    
+    # 파일 크기 단위 에 따른 수치 변환
     for file_data in file_list:
         if file_data[DATA_TYPE] == CATEGORY_FILE:
             if file_data[DATA_SIZE_TYPE] == SIZE_TYPE_KB:
@@ -95,6 +108,8 @@ def main_browser(request):
                 file_data[DATA_SIZE] = round(file_data[DATA_SIZE]/(1000**2), 3)
             elif file_data[DATA_SIZE_TYPE] == SIZE_TYPE_GB:
                 file_data[DATA_SIZE] = round(file_data[DATA_SIZE]/(1000**3), 3) 
+
+    # html에 제출할 데이터
     context = {
         "type": "browser", 
         "user_id": user_id, 
@@ -104,10 +119,16 @@ def main_browser(request):
     
     return render(request, 'app/main.html', context)
 
+# Settings
 def main_setting(request):
-    user_id = request.session[SESSION_ID]
+    try:
+        user_id = request.session[SESSION_ID]
+    except Exception:
+        return HttpResponseRedirect(reverse('access-denied'))
 
-    # Only admin
+    # Only Admin
+    if user_id != "admin":
+        return HttpResponseRedirect(reverse('access-denied'))
 
     # Search Setting ID
     l = User.objects.all()
@@ -119,21 +140,31 @@ def main_setting(request):
     return render(request, 'app/main.html', context)
 
 def main_about(request):
-    user_id = request.session[SESSION_ID]
+    # 어바웃 페이지
+    try:
+        user_id = request.session[SESSION_ID]
+    except Exception:
+        return HttpResponseRedirect(reverse('access-denied'))
+
     context = {"type": "about", "user_id": user_id}
     return render(request, 'app/main.html', context)
 
 # Setting Section
 def add_user_page(request):
-    user_id = request.session[SESSION_ID]
+    try:
+        user_id = request.session[SESSION_ID]
+    except Exception:
+        return HttpResponseRedirect(reverse('access-denied'))
+
+    # Only Admin
     if user_id == 'admin':
         return render(request, 'app/main/settings_page/adduser.html')
     else:
-        return 'error'
+        return HttpResponseRedirect(reverse('access-denied'))
 
 def adduser(request):
     # Is request is post ?& have session
-    if (request.method == "POST") and (SESSION_ID in request.session):
+    if (request.method == "POST") and (SESSION_ID in request.session) and (request.session[SESSION_ID] == "admin"):
         # Check This id is aleady exist
         new_id = request.POST['new_id']
         new_pswd = request.POST['new_pswd']
@@ -148,35 +179,49 @@ def adduser(request):
         new_user = User(userId=new_id, pswd=new_pswd)
         new_user.save()
         return HttpResponseRedirect(reverse('main-setting'))
+    else:
+        return HttpResponseRedirect(reverse('access-denied'))
 
+# Go To Modify User Page
 def modify_user_page(request):
-    user_id = request.session[SESSION_ID]
+    try:
+        user_id = request.session[SESSION_ID]
+    except Exception:
+        return HttpResponseRedirect(reverse('access-denied'))
+
     if user_id == 'admin':
         target_id = request.POST['user-id']
         context = {"target_id": target_id}
         return render(request, 'app/main/settings_page/modifyuser.html', context)
     else:
-        return 'error'
+        return HttpResponseRedirect(reverse('access-denied'))
 
+# Run modify user
 def modifyuser(request):
-    if(request.method == "POST") and (SESSION_ID in request.session):
+    if(request.method == "POST") and (SESSION_ID in request.session) and (request.session[SESSION_ID] == "admin"):
         target_id = request.POST['target_id']
         new_pswd = request.POST['new_pswd']
         
+        # change user info
         if len(User.objects.filter(userId=target_id)) != 0:
             target_user = User.objects.filter(userId=target_id).first()
             target_user.pswd = new_pswd
             target_user.save()
-    return HttpResponseRedirect(reverse('main-setting'))
+        return HttpResponseRedirect(reverse('main-setting'))
+    else:
+        return HttpResponseRedirect(reverse('access-denied'))
 
+# Delete User
 def deleteuser(request):
-    if(request.method == "POST") and (SESSION_ID in request.session):
+    if(request.method == "POST") and (SESSION_ID in request.session) and (request.session[SESSION_ID] == "admin"):
         target_id = request.POST['user-id']
 
         if len(User.objects.filter(userId=target_id)) != 0:
             target_user = User.objects.filter(userId=target_id).first()
             target_user.delete()
-    return HttpResponseRedirect(reverse('main-setting'))
+        return HttpResponseRedirect(reverse('main-setting'))
+    else:
+        return HttpResponseRedirect(reverse('access-denied'))
 
 # Browser Section
 
@@ -200,42 +245,33 @@ def download_file(request):
 # Download Multi Files
 def download_multiple(request):
     if request.method == "POST":
-        current_path = request.session[SESSION_CURRENT_PATH]
+        # Get Datas
+        try:
+            current_path = request.session[SESSION_CURRENT_PATH]
+            user_id = request.session[SESSION_ID]
+        except Exception:
+            return HttpResponseRedirect(reverse('access-denied'))
 
         selected_directory_list = request.POST['selected-directories'].split('>')
         selected_file_list = request.POST['selected-files'].split('>')
         
-        user_id = request.session[SESSION_ID]
+        # Multiple File Algorithm
         target_zip_file = f'{user_id}-download.zip'
-
-        zfile = zipfile.ZipFile(target_zip_file, 'w' , zipfile.ZIP_DEFLATED)
-
-        # zip directory
-        
-        for directory in selected_directory_list:
-            directory_full_root = ABSOLUTE_ROOT + current_path + directory
-            for root, dirs, files in os.walk(directory_full_root):
-
-                for file in files:
-                    zfile.write(os.path.join(root, file), os.path.join(root, file)[len(ABSOLUTE_ROOT):])
-        
-        print(selected_file_list)
-        for _file in selected_file_list:
-            file_full_root = ABSOLUTE_ROOT + current_path + _file
-            with open(file_full_root, 'rb') as f:
-                zfile.write(file_full_root, current_path+_file)
-        
-        zfile.close()
+        get_file_archive(target_zip_file, selected_directory_list, selected_file_list, ABSOLUTE_ROOT, current_path)
     
         # Release zip file
         content_type, _ = mimetypes.guess_type(target_zip_file)
         with open(target_zip_file, 'rb') as f:
             response = HttpResponse(f, content_type=content_type)
             response['Content-Disposition'] = f'attachment; filename={target_zip_file}'
+
+        # Zip File 제거
         os.remove(target_zip_file)
         return response
 
-    return HttpResponseRedirect(reverse('main-browser'))
+        return HttpResponseRedirect(reverse('main-browser'))
+    else:
+        return HttpResponseRedirect(reverse('access-denied'))
 
 
 # Upload File
@@ -243,7 +279,10 @@ def upload_file(request):
     if request.method == 'POST':
 
         # Get Current Root
-        current_path = request.session[SESSION_CURRENT_PATH]
+        try:
+            current_path = request.session[SESSION_CURRENT_PATH]
+        except Exception:
+            return HttpResponseRedirect(reverse('access-denied'))
 
         files = request.FILES.getlist('upload-files')
         for file_data in files:
@@ -254,13 +293,19 @@ def upload_file(request):
                 for chunk in file_data.chunks():
                     f.write(chunk)
             
-    return HttpResponseRedirect(reverse('main-browser'))
+        return HttpResponseRedirect(reverse('main-browser'))
+    else:
+        return HttpResponseRedirect(reverse('access-denied'))
 
 
-    
+# 디렉토리 생성
 def make_new_directory(request):
     if request.method == "POST":
-        current_path = request.session[SESSION_CURRENT_PATH]
+        try:
+            current_path = request.session[SESSION_CURRENT_PATH]
+        except Exception:
+            return HttpResponseRedirect(reverse('access-denied'))
+
         new_directory_name = request.POST['new-directory-name']
         full_path = ABSOLUTE_ROOT + current_path + new_directory_name
 
@@ -271,11 +316,16 @@ def make_new_directory(request):
             return render(request, 'app/err_page/incorrect_redirection.html', context)
         # ADD New Diredtory
         os.mkdir(full_path)
-    return HttpResponseRedirect(reverse('main-browser'))
+        return HttpResponseRedirect(reverse('main-browser'))
+    else:
+        return HttpResponseRedirect(reverse('access-denied'))
 
 def delete_datas(request):
     if request.method == "POST":
-        current_path = request.session[SESSION_CURRENT_PATH]
+        try:
+            current_path = request.session[SESSION_CURRENT_PATH]
+        except Exception:
+            return HttpResponseRedirect(reverse('access-denied'))
 
         deleted_directory_list = request.POST['deleted-directories'].split('>')
         deleted_file_list = request.POST['deleted-files'].split('>')
@@ -292,7 +342,14 @@ def delete_datas(request):
             if os.path.isfile(file_full_path):
                 os.remove(file_full_path)
 
-    return HttpResponseRedirect(reverse('main-browser'))
+        return HttpResponseRedirect(reverse('main-browser'))
+    else:
+        return HttpResponseRedirect(reverse('access-denied'))
 
 
-# Error
+# Access Denied
+def access_denied(request):
+    return render(request, 'app/err_page/access_denied.html')
+
+# 404 Error
+
