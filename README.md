@@ -10,7 +10,7 @@
 
 <br>
 
-딱 최소한의 기능을 갖춘 넥스트클라우드보다 로딩시간이 적은 웹 어플리케이션
+딱 최소한의 기능을 갖춘 NAS Cloud Web Application
 * * *
 ![example](example.PNG)
 * * *
