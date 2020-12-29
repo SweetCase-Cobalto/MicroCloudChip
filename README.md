@@ -27,13 +27,7 @@
 >   ### As User 
 >   * 반드시 Linux 환경에 Docker가 설치되어있어야 합니다.(Windows에도 작동이 가능하나 일부 기능에 Root관련 문제로 에러가 발생할 수 있습니다.)
 >   >```shell
->   >$ git clone https://github.com/SweetCase-BakHwa-Project/MicroCloudChip.git
->   >$ cd MicroCloudChip
->   >$ (sudo) docker build --tag [이미지 이름] .
->   >$ (sudo) docker run -it -d -p 8000:8000 --name [아무거나] [이미지이름]
->   >```
->   * 혹은 도커 이미지를 아예 받아와서 실행할 수 있습니다.
->   >$ sudo docker run -it -d -p 8000:8000 --name [아무거나] recomadock/microcloudchip:0.0.1<br>
+>   >$ sudo docker run -it -d -p 8000:8000 --name [아무거나] recomadock/microcloudchip:0.0.1
 >   [참고](https://hub.docker.com/r/recomadock/microcloudchip/tags?page=1&ordering=last_updated)
 >   * 정상적으로 완료되었으면 chrome으로 hostname:8000/microcloudchip로 접속하면 사용 가능합니다.
 * 
