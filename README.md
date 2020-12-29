@@ -32,6 +32,9 @@
 >   >$ (sudo) docker build --tag [이미지 이름] .
 >   >$ (sudo) docker run -it -d -p 8000:8000 --name [아무거나] [이미지이름]
 >   >```
+>   * 혹은 도커 이미지를 아예 받아와서 실행할 수 있습니다.
+>   >$ sudo docker run -it -d -p 8000:8000 --name [아무거나] recomadock/microcloudchip:0.0.1<br>
+>   [참고](https://hub.docker.com/r/recomadock/microcloudchip/tags?page=1&ordering=last_updated)
 >   * 정상적으로 완료되었으면 chrome으로 hostname:8000/microcloudchip로 접속하면 사용 가능합니다.
 * 
 >   ### As Developer
