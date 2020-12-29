@@ -21,6 +21,7 @@ urlpatterns = [
     path(r'upload', views.upload_file),
     path(r'new-directory', views.make_new_directory),
     path(r'delete', views.delete_datas),
+    path(r'download-multiple', views.download_multiple),
 
     # Setting Section
     path(r'main/setting/adduser', views.add_user_page, name='add-user'),

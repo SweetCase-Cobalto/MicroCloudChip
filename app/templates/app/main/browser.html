@@ -21,29 +21,30 @@
         <div class="menu-list" id="browser-menu-list">
 
             <!-- upload form -->
-            <form id="upload-form" action="/microcloudchip/upload" method="POST" enctype="multipart/form-data">
-                <label for="upload-files" style="margin-top: -5px; margin-bottom: -5px">
-                    <h4 class="menu-item" id="menu-browser-upload">Upload</h4>
-                </label>
+            <form id="upload-form" action="/microcloudchip/upload" method="POST" enctype="multipart/form-data" class="menu-form">
+                <h4 class="menu-item" id="menu-browser-upload">Upload</h4>
                 <input type="file" multiple id="upload-files" name='upload-files'>
                 <input type="submit" style="visibility: hidden;" id="go-to-upload-btn" value="upload">
             </form>
-
-            <h4 class="menu-item" id="menu-browser-download">Download</h4>
+            
+            <!-- Download Form -->
+            <form id="download-multiple-form" action="/microcloudchip/download-multiple" method="POST" class="menu-form">
+                <h4 class="menu-item" id="menu-browser-download">Download</h4>
+                <input type="text" style="visibility: hidden;" name="selected-directories" id="selected-directories">
+                <input type="text" style="visibility: hidden;" name="selected-files" id="selected-files">
+            </form>
 
             <!-- Make New Directory -->
-            <form id="new-directory-form" action="/microcloudchip/new-directory" method="POST">
-                <label for="new-directory-name" style="margin-top: -5px; margin-bottom: -5px">
-                    <h4 class="menu-item" id="menu-browser-new-directory">New Directory</h4>
-                </label>
+            <form id="new-directory-form" action="/microcloudchip/new-directory" method="POST" class="menu-form">
+                <h4 class="menu-item" id="menu-browser-new-directory">New Directory</h4>
                 <input type="text" style="visibility: hidden" name="new-directory-name" id="new-directory-name">
             </form>
 
             <!-- Delete -->
-            <form id="delete-form" method="POST", action="/microcloudchip/delete">
+            <form id="delete-form" method="POST", action="/microcloudchip/delete" class="menu-form">
+                <h4 class="menu-item" id="menu-browser-delete">Delete</h4>
                 <input type="text" style="visibility: hidden;" name="deleted-directories" id="deleted-directories">
                 <input type="text" style="visibility: hidden;" name="deleted-files" id="deleted-files">
-                <h4 class="menu-item" id="menu-browser-delete">Delete</h4>
             </form>
         </div>
     </div>

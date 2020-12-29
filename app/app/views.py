@@ -9,6 +9,7 @@ import os
 import json
 import mimetypes
 import shutil
+import zipfile
 
 from .models import User
 from .engine.browser.browser_module import *
@@ -82,10 +83,8 @@ def main_browser(request):
                             current_path += path
                             current_path += "/"
 
-    # get list
-    print(current_path)
     request.session[SESSION_CURRENT_PATH] = current_path
-    root = f'{ABSOLUTE_ROOT}/{current_path}'
+    root = f'{ABSOLUTE_ROOT}{current_path}'
     file_list = get_list(root)
 
     for file_data in file_list:
@@ -190,13 +189,54 @@ def download_file(request):
 
         if os.path.exists(full_root): 
             content_type, _ = mimetypes.guess_type(full_root)
-            with open(full_root, 'r') as f:
+            with open(full_root, 'rb') as f:
                 response = HttpResponse(f, content_type=content_type)
                 response['Content-Disposition'] = f'attachment; filename={target_file}'
             return response
         else:
             pass
     return HttpResponseRedirect(reverse('main-browser'))
+
+# Download Multi Files
+def download_multiple(request):
+    if request.method == "POST":
+        current_path = request.session[SESSION_CURRENT_PATH]
+
+        selected_directory_list = request.POST['selected-directories'].split('>')
+        selected_file_list = request.POST['selected-files'].split('>')
+        
+        user_id = request.session[SESSION_ID]
+        target_zip_file = f'{user_id}-download.zip'
+
+        zfile = zipfile.ZipFile(target_zip_file, 'w' , zipfile.ZIP_DEFLATED)
+
+        # zip directory
+        
+        for directory in selected_directory_list:
+            directory_full_root = ABSOLUTE_ROOT + current_path + directory
+            for root, dirs, files in os.walk(directory_full_root):
+
+                for file in files:
+                    zfile.write(os.path.join(root, file), os.path.join(root, file)[len(ABSOLUTE_ROOT):])
+        
+        print(selected_file_list)
+        for _file in selected_file_list:
+            file_full_root = ABSOLUTE_ROOT + current_path + _file
+            with open(file_full_root, 'rb') as f:
+                zfile.write(file_full_root, current_path+_file)
+        
+        zfile.close()
+    
+        # Release zip file
+        content_type, _ = mimetypes.guess_type(target_zip_file)
+        with open(target_zip_file, 'rb') as f:
+            response = HttpResponse(f, content_type=content_type)
+            response['Content-Disposition'] = f'attachment; filename={target_zip_file}'
+        os.remove(target_zip_file)
+        return response
+
+    return HttpResponseRedirect(reverse('main-browser'))
+
 
 # Upload File
 def upload_file(request):
@@ -215,6 +255,8 @@ def upload_file(request):
                     f.write(chunk)
             
     return HttpResponseRedirect(reverse('main-browser'))
+
+
     
 def make_new_directory(request):
     if request.method == "POST":
@@ -239,7 +281,6 @@ def delete_datas(request):
         deleted_file_list = request.POST['deleted-files'].split('>')
 
         # Remove Directory
-        print("directory")
         for target in deleted_directory_list:
             directory_full_path = ABSOLUTE_ROOT + current_path + target
             if os.path.isdir(directory_full_path):
@@ -252,4 +293,6 @@ def delete_datas(request):
                 os.remove(file_full_path)
 
     return HttpResponseRedirect(reverse('main-browser'))
+
+
 # Error

@@ -66,6 +66,7 @@ $(() => {
             }
         }
     });
+    // Selected File Checkbox
     $(".file-checkbox").change((e) => {
         fileName = e.target.name;
 
@@ -84,6 +85,28 @@ $(() => {
             }
         }
     });
+
+    // Upload Mutiple Files
+    $('#menu-browser-download').click(() => {
+        if(selectedFileList.length == 0 && selectedDirectoryList == 0) {
+            alert('Selected Directory or File');
+            return;
+        } 
+        selectedDirectoryString = ""
+        selectedFileString = ""
+
+        for(var idx in selectedDirectoryList) {
+            selectedDirectoryString += selectedDirectoryList[idx] + ">";
+        }
+        for(var idx in selectedFileList) {
+            selectedFileString += selectedFileList[idx] + ">"
+        }
+
+        document.getElementById('selected-directories').value = selectedDirectoryString.slice(0, selectedDirectoryString.length - 1);
+        document.getElementById('selected-files').value = selectedFileString.slice(0, selectedFileString.length - 1);
+        document.getElementById('download-multiple-form').submit();
+    });
+
     // Delete Driectory
     $('#menu-browser-delete').click(() => {
         if(selectedFileList.length == 0 && selectedDirectoryList == 0) {
