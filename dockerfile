@@ -1,9 +1,9 @@
 FROM python:3.9
 
-ARG START_ROOT
-
 RUN mkdir /app
 WORKDIR /app
+
+RUN mkdir /app/storage
 
 RUN apt-get update
 RUN apt-get install -y git
@@ -14,4 +14,4 @@ WORKDIR /app/MicroCloudChip
 RUN python -m pip install -r requirements.txt
 EXPOSE 8000
 
-ENTRYPOINT ["python", "manage.py", "runserver"]
+ENTRYPOINT ["python", "app/manage.py", "runserver"]
