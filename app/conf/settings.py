@@ -27,7 +27,7 @@ SECRET_KEY = '3d=%hs%@5q2_p2r5i+hwul&kihw#z#_2*-w8l)w*kc#kj2#2)$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["sweetcase.tk"]
 
 
 # Application definition
