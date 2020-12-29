@@ -27,7 +27,7 @@
 >   >```shell
 >   >$ git clone https://github.com/SweetCase-BakHwa-Project/MicroCloudChip.git
 >   >$ cd MicroCloudChip
->   >$ (sudo) docker build --tag [이미지 이름] test .
+>   >$ (sudo) docker build --tag [이미지 이름] .
 >   >$ (sudo) docker run -it -d -p 8000:8000 --name [아무거나] [이미지이름]
 >   >```
 >   * 정상적으로 완료되었으면 chrome으로 hostname:8000/microcloudchip로 접속하면 사용 가능합니다.
