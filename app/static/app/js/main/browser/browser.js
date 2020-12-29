@@ -1,5 +1,9 @@
-$(() => {
+// Selected data list
+var selectedDirectoryList = [];
+var selectedFileList = [];
 
+$(() => {
+    
     /* Menu buttons */
     // upload button event when file selected
     $('#upload-files').change((e) => {
@@ -30,6 +34,8 @@ $(() => {
         let newDirectoryName = prompt("Write New Directory Name");
 
         // Check File Name
+        if(newDirectoryName === null) { return; }
+
         if(!checkDirectoryName(newDirectoryName)) {
             alert("Directory name is invalid");
             return;
@@ -39,4 +45,66 @@ $(() => {
         }
 
     });
+    
+
+    // Selected Directory Checkbox
+    $(".directory-checkbox").change((e) => {
+        dirName = e.target.name;
+        
+        if(e.target.checked) {
+            if(selectedDirectoryList.findIndex((e) => {
+                if(dirName == e) { return true; }
+            }) === -1) {
+                selectedDirectoryList.push(dirName);
+            }
+        } else {
+            const deletedIndex = selectedDirectoryList.findIndex((e) => {
+                if(dirName == e) { return true; }
+            });
+            if(deletedIndex != -1) {
+                selectedDirectoryList.splice(deletedIndex, 1);
+            }
+        }
+    });
+    $(".file-checkbox").change((e) => {
+        fileName = e.target.name;
+
+        if(e.target.checked) {
+            if(selectedFileList.findIndex((e) => {
+                if(fileName == e) { return true }
+            }) === -1) {
+                selectedFileList.push(fileName);
+            }
+        } else {
+            const deletedIndex = selectedFileList.findIndex((e) => {
+                if(fileName == e) { return true; }
+            });
+            if(deletedIndex != -1) {
+                selectedFileList.splice(deletedIndex, 1);
+            }
+        }
+    });
+    // Delete Driectory
+    $('#menu-browser-delete').click(() => {
+        if(selectedFileList.length == 0 && selectedDirectoryList == 0) {
+            alert('Selected Directory or File to delete');
+            return;
+        }
+        if(confirm('Are you sure to Delete This Data?')) {
+            selectedDirectoryString = ""
+            selectedFileString = ""
+            for(var idx in selectedDirectoryList) {
+                selectedDirectoryString += selectedDirectoryList[idx] + ">";
+            }
+            for(var idx in selectedFileList) {
+                selectedFileString  += selectedFileList[idx] + ">";
+            }
+            document.getElementById('deleted-directories').value = selectedDirectoryString.slice(0, selectedDirectoryString.length - 1);
+            document.getElementById('deleted-files').value = selectedFileString.slice(0, selectedFileString.length - 1);
+            document.getElementById('delete-form').submit();
+        } else {
+            return;
+        }
+    });
+    
 });

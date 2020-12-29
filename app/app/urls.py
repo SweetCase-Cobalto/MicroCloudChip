@@ -20,6 +20,7 @@ urlpatterns = [
     re_path(r'download/$', views.download_file),
     path(r'upload', views.upload_file),
     path(r'new-directory', views.make_new_directory),
+    path(r'delete', views.delete_datas),
 
     # Setting Section
     path(r'main/setting/adduser', views.add_user_page, name='add-user'),

@@ -230,4 +230,26 @@ def make_new_directory(request):
         # ADD New Diredtory
         os.mkdir(full_path)
     return HttpResponseRedirect(reverse('main-browser'))
+
+def delete_datas(request):
+    if request.method == "POST":
+        current_path = request.session[SESSION_CURRENT_PATH]
+
+        deleted_directory_list = request.POST['deleted-directories'].split('>')
+        deleted_file_list = request.POST['deleted-files'].split('>')
+
+        # Remove Directory
+        print("directory")
+        for target in deleted_directory_list:
+            directory_full_path = ABSOLUTE_ROOT + current_path + target
+            if os.path.isdir(directory_full_path):
+                shutil.rmtree(directory_full_path)
+        
+        # Remove File
+        for target in deleted_file_list:
+            file_full_path = ABSOLUTE_ROOT + current_path + target
+            if os.path.isfile(file_full_path):
+                os.remove(file_full_path)
+
+    return HttpResponseRedirect(reverse('main-browser'))
 # Error

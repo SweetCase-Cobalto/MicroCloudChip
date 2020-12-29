@@ -38,7 +38,13 @@
                 </label>
                 <input type="text" style="visibility: hidden" name="new-directory-name" id="new-directory-name">
             </form>
-            <h4 class="menu-item" id="menu-browser-delete">Delete</h4>
+
+            <!-- Delete -->
+            <form id="delete-form" method="POST", action="/microcloudchip/delete">
+                <input type="text" style="visibility: hidden;" name="deleted-directories" id="deleted-directories">
+                <input type="text" style="visibility: hidden;" name="deleted-files" id="deleted-files">
+                <h4 class="menu-item" id="menu-browser-delete">Delete</h4>
+            </form>
         </div>
     </div>
     <div class="browser-container">
@@ -59,10 +65,9 @@
 
             <!-- back button -->
             {% if root != "/" %}
-                <ul class="list-group list-group-horizontal directory-layer">
+                <ul class="list-group list-group-horizontal back-layer">
                     <li class="list-group-item col-name">
                         <form action="browser" method="POST" id="back-form">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
                             <img src="{% static 'app/img/folder.gif' %}" class="directory-img">
                             <input type="hidden" id="selected-item" name="selected-item" value="back">
                             <input type="hidden" id="isback" name="isback" value="1">
@@ -83,7 +88,7 @@
                     <ul class="list-group list-group-horizontal directory-layer">
                         <li class="list-group-item col-name">
                             <form action="browser" method="POST" id="{{ file.filename }}-form">
-                                <input type="checkbox" aria-label="Checkbox for following text input">
+                                <input type="checkbox" aria-label="Checkbox for following text input" class="directory-checkbox" name="{{ file.filename }}">
                                 <img src="{% static 'app/img/folder.gif' %}" class="directory-img">
                                 <input type="hidden" id="selected-item" name="selected-item" value="{{ file.filename }}">
                                 <input type="hidden" id="isback" name="isback" value="0">
@@ -100,10 +105,10 @@
                     </ul>
                 {% else %}   
                     <!-- File -->
-                    <ul class="list-group list-group-horizontal directory-layer">
+                    <ul class="list-group list-group-horizontal file-layer">
                         <li class="list-group-item col-name">
                             <form action="download" method="GET" id="{{ file.filename }}-form">
-                                <input type="checkbox" aria-label="Checkbox for following text input">
+                                <input type="checkbox" aria-label="Checkbox for following text input" class="file-checkbox" name="{{ file.filename }}">
 
                                 <!-- Data -->
                                 <input type="hidden" id="selected-item" name="selected-item" value="{{ file.filename }}">
