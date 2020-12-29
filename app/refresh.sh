@@ -1,7 +1,4 @@
-rm -rf app/migrations
-rm db.sqlite3
-
-python manage.py makemigrations
-python manage.py migrate
-python manage.py makemigrations app
-python manage.py migrate app
+python app/manage.py makemigrations
+python app/manage.py migrate
+python app/manage.py makemigrations app
+python app/manage.py migrate app
