@@ -4,7 +4,7 @@
 ![framework](https://img.shields.io/badge/django-3.1.4-yellowgreen?style=flat-square)
 ![os](https://img.shields.io/badge/OS-Linux-blueviolet?style=flat-square)
 ![platform](https://img.shields.io/badge/platform-Docker-informational?style=flat-square)
-![GitHub](https://img.shields.io/github/license/SweetCase-BakHwa-Project/MicroCloudChip)<br>
+![GitHub](https://img.shields.io/github/license/SweetCase-BakHwa-Project/MicroCloudChip?style=flat-square)<br>
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/SweetCase-BakHwa-Project/MicroCloudChip?style=flat-square)
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/SweetCase-BakHwa-Project/MicroCloudChip?label=pre-release&style=flat-square)
 ![status](https://img.shields.io/badge/status-Alpha_Test-important?style=flat-square)
