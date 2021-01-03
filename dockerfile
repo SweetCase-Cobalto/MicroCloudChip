@@ -15,6 +15,8 @@ RUN python -m pip install -r requirements.txt
 
 WORKDIR /app/MicroCloudChip/app
 RUN sh refresh.sh
-EXPOSE 8000
 
-ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENV PORT 8000
+ENV IP 0.0.0.0
+
+ENTRYPOINT ["python", "manage.py", "runserver", "${IP}:${PORT}"]
