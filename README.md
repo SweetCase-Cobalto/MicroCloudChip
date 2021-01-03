@@ -28,9 +28,10 @@
 >   ### As User 
 >   * 반드시 Linux 환경에 Docker가 설치되어있어야 합니다.(Windows에도 작동이 가능하나 일부 기능에 Root관련 문제로 에러가 발생할 수 있습니다.)
 >   >```shell
->   >$ sudo docker run -it -d -p 8000:8000 --name [아무거나] recomadock/microcloudchip:0.0.2
+>   >$ sudo docker run -it -d -p 8000:8000 --name [아무거나] -e IP=0.0.0.0 -e PORT=8000 recomadock/microcloudchip:0.1.0
 >   [참고](https://hub.docker.com/r/recomadock/microcloudchip/tags?page=1&ordering=last_updated)
 >   * 정상적으로 완료되었으면 chrome으로 hostname:8000/microcloudchip로 접속하면 사용 가능합니다.
+>   * IP, PORT는 선택이며 설정을 하지 않았을 경우의 default값은 0.0.0.0:8000이 됩니다.
 * 
 >   ### As Developer
 >   * Localhost에서 개발하는 케이스를 위주로 설명하였습니다.
@@ -50,9 +51,6 @@
 >   * 정상적으로 작동이 되었으면 chrome으로 localhost:8000/microcloudchip으로 접속이 가능합니다.
 * * *
 ## 업데이트 예정인 항목
-* v0.1.0
-    * docker run으로 어플리케이션을 실행 할 때 최상위 루트를 사용자가 직접 정의할 수 있게 구현
-    * port나 ip범위도 docker run으로 실행할 때 수정할 수 있게 구현
 * v0.2.0
     * 시스템 정보 추가(Watcher 기능)
         * 전체 사용중인 용량 확인
