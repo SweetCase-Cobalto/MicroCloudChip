@@ -19,4 +19,4 @@ RUN sh refresh.sh
 ENV PORT 8000
 ENV IP 0.0.0.0
 
-ENTRYPOINT ["python", "manage.py", "runserver", "${IP}:${PORT}"]
+ENTRYPOINT ["sh", "-c", "python manage.py runserver $IP:$PORT"]
