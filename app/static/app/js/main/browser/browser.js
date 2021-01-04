@@ -10,7 +10,42 @@ $(() => {
             url: "/microcloudchip/get_usage",
             type: "get",
             success: function(data) {
-                console.log(data.total);
+                var total = 0;
+                var used = 0;
+                var total_label = "byte";
+                var used_label = "byte";
+                var number_string = "";
+
+                // Check Total
+                if(data.total < 1000) { total = data.total; }
+                else if(data.total < Math.pow(1000, 2)) { total = data.total/1000; total_label = "KB"; }
+                else if(data.total < Math.pow(1000, 3)) { total = data.total/Math.pow(1000, 2); total_label = "MB"; }
+                else if(data.total < Math.pow(1000, 4)) { total = data.total/Math.pow(1000, 3); total_label = "GB"; }
+                else { total = data.total/Math.pow(1000, 4); total_label = "TB"; }
+
+                // Check Usage
+                if(data.used < 1000) { used = data.used; }
+                else if(data.used < Math.pow(1000, 2)) { used = data.used/1000; used_label = "KB"; }
+                else if(data.used < Math.pow(1000, 3)) { used = data.used/Math.pow(1000, 2); used_label = "MB"; }
+                else if(data.used < Math.pow(1000, 4)) { used = data.used/Math.pow(1000, 3); used_label = "GB"; }
+                else { used = data.used/Math.pow(1000, 4); used_label = "TB"; }
+                
+                // Make String
+                total = total.toFixed(1);
+                used = used.toFixed(1);
+
+                number_string = total.toString() + total_label + " / " + used.toString() + used_label;
+
+                // Change String
+                $('#gate-to-number').text(number_string);
+                
+                // Change Percentage
+                var used_percentage = parseInt(((data.used/data.total) * 100));
+                var empty_percentage = 100 - used_percentage;
+
+                $('#used-line').css("width", used_percentage.toString()+"%");
+                $('#unused-line').css("width", empty_percentage.toString()+"%");
+                
             }
         });
     });
