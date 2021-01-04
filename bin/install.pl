@@ -67,7 +67,7 @@ system "mkdir", $main_root;
 system "mkdir", $install_root;
 
 # 처음 perl을 돌린 장소
-$start_path = system "pwd";
+my $start_path = `pwd`;
 
 chdir $install_root;
 system "wget", "https://www.python.org/ftp/python/3.9.0/Python-3.9.0.tgz";
@@ -94,7 +94,9 @@ system "rm", "-rf", "Python-3.9.0";
 # $python_root
 
 # Now back to the first directory for write setting file
-open(FH, "> ". $start_path);
+$log_path = "$start_path/setting.cfg";
+print "write on " . $log_path;
+open(FH, "> ". $log_path);
 print FH "main root:" . $main_root;
 print FH "ip:" . $ip;
 print FH "port:" . $port;
