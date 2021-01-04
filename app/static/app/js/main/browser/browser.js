@@ -34,7 +34,7 @@ $(() => {
                 total = total.toFixed(1);
                 used = used.toFixed(1);
 
-                number_string = total.toString() + total_label + " / " + used.toString() + used_label;
+                number_string = used.toString() + used_label + " / " + total.toString() + total_label;
 
                 // Change String
                 $('#gate-to-number').text(number_string);

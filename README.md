@@ -55,11 +55,15 @@
     * 시스템 정보 추가(Watcher 기능)
         * 전체 사용중인 용량 확인
         * 최대로 사용할 수 있는 용량 확인
-        * Docker가 아닌 deb , rpm package 로 설치 가능하게 변경
+    * deb/rpm 패키지 설치 가능
+    * 메인 루트를 사용자가 직접 정할 수 있다.
+        * 패키지를 이용해 설치 할 경우
 v 0.3.0
     * Watcher 기능 도입
         * 현재 Login된 User 확인
         * User Log 확인
+    * 메인 루트를 사용자가 직접 정할 수 있다.
+        * Docker를 이용해 설치 할 경우
 * v0.4.0
     * User 관련 기능 도입
         * Linux 처럼 user, other로 나뉜다.

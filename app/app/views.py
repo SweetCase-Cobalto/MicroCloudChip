@@ -337,6 +337,8 @@ def delete_datas(request):
 
         # Remove Directory
         for target in deleted_directory_list:
+            if target == '':
+                continue
             directory_full_path = ABSOLUTE_ROOT + current_path + target
             if os.path.isdir(directory_full_path):
                 shutil.rmtree(directory_full_path)
@@ -358,7 +360,6 @@ def access_denied(request):
 
 # Data By AJAX
 def get_usage(request):
-    print("a")
     if not SESSION_ID in request.session:
         return HttpResponseRedirect(reverse('access-denied'))
     return JsonResponse(get_usage_data())
