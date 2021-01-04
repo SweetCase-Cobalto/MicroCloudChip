@@ -71,7 +71,7 @@
             <!-- Title -->
             <ul class="list-group list-group-horizontal directory-layer">
                 <li class="list-group-item list-group-item-primary col-name">Name</li>
-                <li class="list-group-item list-group-item-primary col-modify">Modify</li>
+                <li class="list-group-item list-group-item-primary col-create">create</li>
                 <li class="list-group-item list-group-item-primary col-user">User</li>
                 <li class="list-group-item list-group-item-primary col-size">Size</li>
             </ul>
@@ -87,7 +87,7 @@
                             <a class="directory-item" id="back">..</a>
                         </form>
                     </li>
-                    <li class="list-group-item col-modify">
+                    <li class="list-group-item col-create">
                         ..
                     </li>
                     <li class="list-group-item col-user">None</li>
@@ -109,9 +109,9 @@
                             </form>
                             
                         </li>
-                        <li class="list-group-item col-modify">
-                            {{ file.modify_date.year }}/{{ file.modify_date.month }}/{{ file.modify_date.date }} 
-                            {{ file.modify_date.hour }}:{{ file.modify_date.min }}:{{ file.modify_date.sec }}
+                        <li class="list-group-item col-create">
+                            {{ file.create_date.year }}/{{ file.create_date.month }}/{{ file.create_date.date }} 
+                            {{ file.create_date.hour }}:{{ file.create_date.min }}:{{ file.create_date.sec }}
                         </li>
                         <li class="list-group-item col-user">{{ file.owner }}</li>
                         <li class="list-group-item col-size">{{ file.size }} Files</li>
@@ -129,9 +129,9 @@
                                 <a class="file-item" id="{{ file.filename }}">{{ file.filename }}</a>
                             </form>
                         </li>
-                        <li class="list-group-item col-modify">
-                            {{ file.modify_date.year }}/{{ file.modify_date.month }}/{{ file.modify_date.date }} 
-                            {{ file.modify_date.hour }}:{{ file.modify_date.min }}:{{ file.modify_date.sec }}
+                        <li class="list-group-item col-create">
+                            {{ file.create_date.year }}/{{ file.create_date.month }}/{{ file.create_date.date }} 
+                            {{ file.create_date.hour }}:{{ file.create_date.min }}:{{ file.create_date.sec }}
                         </li>
                         <li class="list-group-item col-user">{{ file.owner }}</li>
                         {% if file.size_type == "byte" %}
