@@ -6,6 +6,7 @@ print "Before Install, please write some config\n";
 # Set Main Root
 $main_root = "";
 $default_root = "/home/" . getpwuid($<) . "/microcloudchip";
+$install_root = "/home/" . getpwuid($<) . "/.microcloudchip";
 
 while (1) {
     printf "[1] set your main root.[default: %s]>", $default_root;
@@ -55,8 +56,47 @@ while(1) {
         $ip = $default_ip;
         last;
     }
-    if($ip =~ /^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$/) {
+    if($ip =~ /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) {
         print "ok\n";
         last;
     }
 }
+
+#setting directory
+system "mkdir", $main_root;
+system "mkdir", $install_root;
+
+# 처음 perl을 돌린 장소
+$start_path = system "pwd";
+
+chdir $install_root;
+system "wget", "https://www.python.org/ftp/python/3.9.0/Python-3.9.0.tgz";
+system "tar", "xzf", "Python-3.9.0.tgz";
+system "rm", "-rf", "Python-3.9.0.tgz";
+
+chdir "Python-3.9.0";
+
+$python_dir_root = $install_root . "/python";
+system "./configure", "--prefix", $python_dir_root;
+system "make";
+system "make", "install";
+
+$python_root = $python_dir_root . "/bin";
+
+#remove Python install file
+chdir $install_root;
+system "rm", "-rf", "Python-3.9.0";
+
+# To Write setting.cfg
+# $main_root
+# $ip
+# $port
+# $python_root
+
+# Now back to the first directory for write setting file
+open(FH, "> ". $start_path);
+print FH "main root:" . $main_root;
+print FH "ip:" . $ip;
+print FH "port:" . $port;
+print FH "python root" . $python_root;
+close(FH);
