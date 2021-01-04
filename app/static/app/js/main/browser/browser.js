@@ -5,6 +5,15 @@ var selectedFileList = [];
 
 $(() => {
 
+    $(document).ready(() => {
+        $.ajax({
+            url: "/microcloudchip/get_usage",
+            type: "get",
+            success: function(data) {
+                console.log(data.total);
+            }
+        });
+    });
     // Refresh event must be empty
     $(window).bind('beforeunload', (e) => {
     });

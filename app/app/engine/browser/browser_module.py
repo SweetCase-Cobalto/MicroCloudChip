@@ -2,6 +2,7 @@ import json
 import os, sys
 import time
 import zipfile
+import shutil
 
 CATEGORY_DIRECTORY  = "directory"
 CATEGORY_FILE       = "file"
@@ -119,3 +120,11 @@ def get_file_archive(archive_name, directory_list, file_list, absolute_root, cur
         with open(file_full_root, 'rb') as f:
             zfile.write(file_full_root, current_path+_file)
     zfile.close()
+
+def get_usage_data():
+    total, used, free = shutil.disk_usage("/")
+    return {
+        "total": total,
+        "used": used,
+        "free": free
+    }

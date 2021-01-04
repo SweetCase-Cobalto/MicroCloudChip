@@ -31,5 +31,8 @@ urlpatterns = [
     path(r'main/setting/deleteuser-redirection', views.deleteuser, name="delete-user-redirection"),
 
     # Access Error
-    path(r'access_denied', views.access_denied, name="access-denied")
+    path(r'access_denied', views.access_denied, name="access-denied"),
+
+    #Get Data By AJAX
+    path(r'get_usage', views.get_usage, name="get-usage")
 ]

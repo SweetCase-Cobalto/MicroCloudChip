@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.urls import reverse
 from django.http import HttpResponse
@@ -352,5 +352,10 @@ def delete_datas(request):
 def access_denied(request):
     return render(request, 'app/err_page/access_denied.html')
 
-# 404 Error
+# Data By AJAX
+def get_usage(request):
+    print("a")
+    if not SESSION_ID in request.session:
+        return HttpResponseRedirect(reverse('access-denied'))
+    return JsonResponse(get_usage_data())
 
