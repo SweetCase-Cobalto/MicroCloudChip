@@ -2,7 +2,7 @@
 <img src="app/static/app/img/logo.png" width="200"><br>
 ![language](https://img.shields.io/badge/python-3.9.0-blue?style=flat-square)
 ![framework](https://img.shields.io/badge/django-3.1.4-yellowgreen?style=flat-square)
-![os](https://img.shields.io/badge/OS-Linux-blueviolet?style=flat-square)
+![os](https://img.shields.io/badge/OS-Debian,RedHat-blueviolet?style=flat-square)
 ![platform](https://img.shields.io/badge/platform-Docker-informational?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/SweetCase-BakHwa-Project/MicroCloudChip?style=flat-square)<br>
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/SweetCase-BakHwa-Project/MicroCloudChip?style=flat-square)
@@ -55,9 +55,13 @@
     * 시스템 정보 추가(Watcher 기능)
         * 전체 사용중인 용량 확인
         * 최대로 사용할 수 있는 용량 확인
-        * 현재 로그인 되어 있는 User 확인
-* v0.3.0
-    * 파일 접근 권한 규칙 도입
+        * Docker가 아닌 deb , rpm package 로 설치 가능하게 변경
+v 0.3.0
+    * Watcher 기능 도입
+        * 현재 Login된 User 확인
+        * User Log 확인
+* v0.4.0
+    * User 관련 기능 도입
         * Linux 처럼 user, other로 나뉜다.
         * 파일일 경우 download, delete 권한이 있으며
         * 디렉토리일 경우 download, upload, delete 세 가지의 권한이 존재하게 된다.
