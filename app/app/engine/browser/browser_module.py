@@ -7,7 +7,7 @@ CATEGORY_DIRECTORY  = "directory"
 CATEGORY_FILE       = "file"
 
 DATA_NAME =     "filename"
-DATA_DATE =     "modify_date"
+DATA_DATE =     "create_date"
 DATA_OWNER =    "owner"
 DATA_TYPE =     "type"
 DATA_SIZE =     "size"

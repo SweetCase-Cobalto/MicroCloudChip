@@ -95,9 +95,13 @@ def main_browser(request):
     try:
         file_list = get_list(root)
     except FileNotFoundError: # Refresh
-        current_path = request.session[SESSION_CURRENT_PATH] = root_buffer
-        root = f'{ABSOLUTE_ROOT}{current_path}'
-        file_list = get_list(root)
+        try:
+            current_path = request.session[SESSION_CURRENT_PATH] = root_buffer
+            root = f'{ABSOLUTE_ROOT}{current_path}'
+            file_list = get_list(root)
+        except Exception:
+            return render(request, 'app/err_page/storage_failed.html')
+            
     
     # 파일 크기 단위 에 따른 수치 변환
     for file_data in file_list:
