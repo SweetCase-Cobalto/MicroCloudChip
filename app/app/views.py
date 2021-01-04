@@ -109,6 +109,7 @@ def main_browser(request):
             elif file_data[DATA_SIZE_TYPE] == SIZE_TYPE_GB:
                 file_data[DATA_SIZE] = round(file_data[DATA_SIZE]/(1000**3), 3) 
 
+
     # html에 제출할 데이터
     context = {
         "type": "browser", 

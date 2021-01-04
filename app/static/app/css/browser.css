@@ -79,3 +79,35 @@ html, body {
     clip:rect(0,0,0,0); 
     border: 0;
 }
+
+#usage-gage {
+    margin-top: 40px;
+    width: 100%;
+    border: 1px solid gray;
+    padding: 10px;
+    font-size: 11px;
+}
+#gage-line {
+    margin-top: -10px;
+    width: 100%;
+    height: 10px;
+}
+#used-line {
+    width: 40%;
+    height: 10px;
+    background-color: #277BBA;
+    float: left;
+}
+#unused-line {
+    width: 60%;
+    height: 10px;
+    background-color: gray;
+    float: left;
+}
+#gate-to-number {
+    clear: both;
+    font-size: 11px;
+    margin-bottom: -10px;
+    margin-top: 5px;
+    text-align: right;
+}

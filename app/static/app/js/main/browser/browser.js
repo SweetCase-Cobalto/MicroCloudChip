@@ -4,7 +4,7 @@ var selectedFileList = [];
 
 
 $(() => {
-    
+
     // Refresh event must be empty
     $(window).bind('beforeunload', (e) => {
     });
