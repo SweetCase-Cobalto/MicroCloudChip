@@ -26,8 +26,8 @@ while (1) {
 }
 
 # Setting Port
-$port = 0;
-$default_port = 8000;
+$port = "0";
+$default_port = "8000";
 
 while($port <= 1023) {
     printf "[2] set your port.[default %s]>", $default_port;
@@ -35,10 +35,10 @@ while($port <= 1023) {
     chomp($port);
     if(length($port) == 0) {
         print "ok, port will be default port: $default_port\n";
-        $port = $defualt_port;
+        $port = $default_port;
         last;
     }
-    if($port <= 1023) {
+	elsif($port <= 1023) {
         print "port range 1024 ~  65353\n";
     }
 }
@@ -62,43 +62,51 @@ while(1) {
     }
 }
 
+$start_path = `pwd`;
+chomp($start_path);
+
+#remove bin for install main path
+$bin_token = index($start_path, "/bin");
+
+substr($start_path, $bin_token) = "";
+
 #setting directory
 system "mkdir", $main_root;
 system "mkdir", $install_root;
 
-# 처음 perl을 돌린 장소
-my $start_path = `pwd`;
-
 chdir $install_root;
-system "wget", "https://www.python.org/ftp/python/3.9.0/Python-3.9.0.tgz";
-system "tar", "xzf", "Python-3.9.0.tgz";
-system "rm", "-rf", "Python-3.9.0.tgz";
 
-chdir "Python-3.9.0";
+# Write Python root
+$python_root = $install_root . "/chip-venv/bin/python";
 
-$python_dir_root = $install_root . "/python";
-system "./configure", "--prefix", $python_dir_root;
-system "make";
-system "make", "install";
-
-$python_root = $python_dir_root . "/bin";
-
-#remove Python install file
-chdir $install_root;
-system "rm", "-rf", "Python-3.9.0";
-
-# To Write setting.cfg
-# $main_root
-# $ip
-# $port
-# $python_root
-
-# Now back to the first directory for write setting file
-$log_path = "$start_path/setting.cfg";
-print "write on " . $log_path;
-open(FH, "> ". $log_path);
-print FH "main root:" . $main_root;
-print FH "ip:" . $ip;
-print FH "port:" . $port;
-print FH "python root" . $python_root;
+# write setting.cfg
+print "write setting.cfg\n";
+open(FH, ">setting.cfg");
+print FH "main root:" . $main_root . "\n";
+print FH "ip:" . $ip . "\n";
+print FH "port:" . $port . "\n";
+print FH "python root:" . $python_root;
 close(FH);
+
+# install python venv
+print "install python venv\n";
+system "mkdir", "chip-venv";
+system "python3", "-m", "venv", "chip-venv", "chip-venv";
+
+# move to microcloudchip and install requirements
+print "install python modules\n";
+chdir $start_path;
+system $python_root, "-m", "pip", "install", "-r", "requirements.txt";
+
+print "migrate Django DB\n";
+chdir "app";
+
+system $python_root, "manage.py", "makemigrations";
+system $python_root, "manage.py", "migrate";
+system $python_root, "manage.py", "makemigrations", "app";
+system $python_root, "manage.py", "migrate", "app";
+
+print "Complete To Install\n";
+print "Now If you want to run, perl run.pl\n";
+print "Or If you want to check or change config\n";
+print "You Can access " , $install_root . "/setting.cfg\n";
