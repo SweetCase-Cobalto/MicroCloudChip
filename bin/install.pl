@@ -106,6 +106,8 @@ system $python_root, "manage.py", "migrate";
 system $python_root, "manage.py", "makemigrations", "app";
 system $python_root, "manage.py", "migrate", "app";
 
+print "\n\n";
+print "================================================\n";
 print "Complete To Install\n";
 print "Now If you want to run, perl run.pl\n";
 print "Or If you want to check or change config\n";

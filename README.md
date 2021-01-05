@@ -2,7 +2,7 @@
 <img src="app/static/app/img/logo.png" width="200"><br>
 ![language](https://img.shields.io/badge/python-3.9.0-blue?style=flat-square)
 ![framework](https://img.shields.io/badge/django-3.1.4-yellowgreen?style=flat-square)
-![os](https://img.shields.io/badge/OS-Linux-blueviolet?style=flat-square)
+![os](https://img.shields.io/badge/OS-Debian-blueviolet?style=flat-square)
 ![platform](https://img.shields.io/badge/platform-Docker-informational?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/SweetCase-BakHwa-Project/MicroCloudChip?style=flat-square)<br>
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/SweetCase-BakHwa-Project/MicroCloudChip?style=flat-square)
