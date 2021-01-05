@@ -28,7 +28,7 @@
 ### As User 
 * Docker Container
     * ```shell
-        $ sudo docker run -it -d -p 8000:8000 --name [아무거나] -e IP=0.0.0.0 -e PORT=8000 recomadock/microcloudchip:0.1.1
+        $ sudo docker run -it -d -p 8000:8000 --name [아무거나] -e IP=0.0.0.0 -e PORT=8000 recomadock/microcloudchip:0.2.0
         ```
     * 정상적으로 완료되었으면 chrome으로 hostname:8000/microcloudchip로 접속하면 사용 가능합니다.
     * [참고](https://hub.docker.com/r/recomadock/microcloudchip/tags?page=1&ordering=last_updated)
@@ -60,12 +60,6 @@ $ python manage.py runserver
 * 정상적으로 작동이 되었으면 chrome으로 localhost:8000/microcloudchip으로 접속이 가능합니다.
 * * *
 ## 업데이트 예정인 항목
-* v0.2.0
-    * 시스템 정보 추가(Watcher 기능)
-        * 전체 사용중인 용량 확인
-        * 최대로 사용할 수 있는 용량 확인
-    * 메인 루트를 사용자가 직접 정할 수 있다.
-        * git으로 code를 다운 받고 perl로 실행하는 경우
 * v 0.3.0
     * Watcher 기능 도입
         * 현재 Login된 User 확인
