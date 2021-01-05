@@ -2,7 +2,7 @@
 <img src="app/static/app/img/logo.png" width="200"><br>
 ![language](https://img.shields.io/badge/python-3.9.0-blue?style=flat-square)
 ![framework](https://img.shields.io/badge/django-3.1.4-yellowgreen?style=flat-square)
-![os](https://img.shields.io/badge/OS-Debian,RedHat-blueviolet?style=flat-square)
+![os](https://img.shields.io/badge/OS-Linux-blueviolet?style=flat-square)
 ![platform](https://img.shields.io/badge/platform-Docker-informational?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/SweetCase-BakHwa-Project/MicroCloudChip?style=flat-square)<br>
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/SweetCase-BakHwa-Project/MicroCloudChip?style=flat-square)
@@ -25,43 +25,52 @@
 * 최초 부팅시 admin의 아이디와 비밀번호는 admin, admin
 * * *
 ## How To run
->   ### As User 
->   * 반드시 Linux 환경에 Docker가 설치되어있어야 합니다.(Windows에도 작동이 가능하나 일부 기능에 Root관련 문제로 에러가 발생할 수 있습니다.)
->   >```shell
->   >$ sudo docker run -it -d -p 8000:8000 --name [아무거나] -e IP=0.0.0.0 -e PORT=8000 recomadock/microcloudchip:0.1.1
->   [참고](https://hub.docker.com/r/recomadock/microcloudchip/tags?page=1&ordering=last_updated)
->   * 정상적으로 완료되었으면 chrome으로 hostname:8000/microcloudchip로 접속하면 사용 가능합니다.
->   * IP, PORT는 선택이며 설정을 하지 않았을 경우의 default값은 0.0.0.0:8000이 됩니다.
-* 
->   ### As Developer
->   * Localhost에서 개발하는 케이스를 위주로 설명하였습니다.
->   * As User처럼 Linux환경(또는 wsl)에서만 가능합니다.
->   >```shell
->   >$ git clone https://github.com/SweetCase-BakHwa-Project/MicroCloudChip.git
->   >$ cd MicroCloudChip/app/app
->   >$ vim config.json
->   >```
-> config.json은 최상위 루트를 정할 때 사용되므로 원하는 루트로 수정합니다.
-> <br>수정을 마쳤으면 아래와 같이 명령어를 입력합니다.
->   >```shell
->   >$ cd .. (in ~/MicroCloudChip/app)
->   >$ sh refresh.sh
->   >$ python manage.py runserver
->   >```
->   * 정상적으로 작동이 되었으면 chrome으로 localhost:8000/microcloudchip으로 접속이 가능합니다.
+### As User 
+* Docker Container
+    * ```shell
+        $ sudo docker run -it -d -p 8000:8000 --name [아무거나] -e IP=0.0.0.0 -e PORT=8000 recomadock/microcloudchip:0.1.1
+        ```
+    * 정상적으로 완료되었으면 chrome으로 hostname:8000/microcloudchip로 접속하면 사용 가능합니다.
+    * [참고](https://hub.docker.com/r/recomadock/microcloudchip/tags?page=1&ordering=last_updated)
+* Run By Source Code 
+    * ```shell
+        $ sudo apt install -y vim gcc make zlib1g-dev zlib1g
+        $ git clone https://github.com/SweetCase-BakHwa-Project/MicroCloudChip.git
+        $ cd MicroCloudChip/bin
+        $ perl install.pl
+        $ perl run.pl
+    ```
+
+* IP, PORT는 선택이며 설정을 하지 않았을 경우의 default값은 0.0.0.0:8000이 됩니다.
+### As Developer
+* Localhost에서 개발하는 케이스를 위주로 설명하였습니다.
+* As User처럼 Linux환경(또는 wsl)에서만 가능합니다.
+```shell
+$ git clone https://github.com/SweetCase-BakHwa-Project/MicroCloudChip.git
+$ cd MicroCloudChip/app/app
+$ vim config.json
+```
+ config.json은 최상위 루트를 정할 때 사용되므로 원하는 루트로 수정합니다.
+ <br>수정을 마쳤으면 아래와 같이 명령어를 입력합니다.
+```shell
+$ cd .. (in ~/MicroCloudChip/app)
+$ sh refresh.sh
+$ python manage.py runserver
+```
+* 정상적으로 작동이 되었으면 chrome으로 localhost:8000/microcloudchip으로 접속이 가능합니다.
 * * *
 ## 업데이트 예정인 항목
 * v0.2.0
     * 시스템 정보 추가(Watcher 기능)
         * 전체 사용중인 용량 확인
         * 최대로 사용할 수 있는 용량 확인
-    * deb/rpm 패키지 설치 가능
     * 메인 루트를 사용자가 직접 정할 수 있다.
-        * 패키지를 이용해 설치 할 경우
+        * git으로 code를 다운 받고 perl로 실행하는 경우
 * v 0.3.0
     * Watcher 기능 도입
         * 현재 Login된 User 확인
         * User Log 확인
+    * deb/rpm 패키지 설치 가능
     * 메인 루트를 사용자가 직접 정할 수 있다.
         * Docker를 이용해 설치 할 경우
 * v0.4.0
