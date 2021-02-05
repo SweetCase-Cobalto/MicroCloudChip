@@ -61,14 +61,13 @@ $ python manage.py runserver
 * * *
 ## 업데이트 예정인 항목
 * v 0.3.0
-    * Watcher 기능 도입
-        * 현재 Login된 User 확인
-        * User Log 확인
+    * User 항목 추가
+        * 새로 생성된 디렉토리 및 파일에 유저 이름 생성
     * deb/rpm 패키지 설치 가능
     * 메인 루트를 사용자가 직접 정할 수 있다.
         * Docker를 이용해 설치 할 경우
 * v0.4.0
-    * User 관련 기능 도입
+    * User 정책 도입
         * Linux 처럼 user, other로 나뉜다.
         * 파일일 경우 download, delete 권한이 있으며
         * 디렉토리일 경우 download, upload, delete 세 가지의 권한이 존재하게 된다.
