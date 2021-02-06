@@ -63,7 +63,6 @@ $ python manage.py runserver
 * v 0.3.0
     * User 항목 추가
         * 새로 생성된 디렉토리 및 파일에 유저 이름 생성
-    * deb/rpm 패키지 설치 가능
     * 메인 루트를 사용자가 직접 정할 수 있다.
         * Docker를 이용해 설치 할 경우
 * v0.4.0
