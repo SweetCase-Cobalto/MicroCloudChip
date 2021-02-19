@@ -60,15 +60,9 @@ $ python manage.py runserver
 * 정상적으로 작동이 되었으면 chrome으로 localhost:8000/microcloudchip으로 접속이 가능합니다.
 * * *
 ## 업데이트 예정인 항목
-* v 0.3.0
-    * User 항목 추가
-        * 새로 생성된 디렉토리 및 파일에 유저 이름 생성
-    * 메인 루트를 사용자가 직접 정할 수 있다.
-        * Docker를 이용해 설치 할 경우
 * v0.4.0
-    * User 정책 도입
-        * Linux 처럼 user, other로 나뉜다.
-        * 파일일 경우 download, delete 권한이 있으며
-        * 디렉토리일 경우 download, upload, delete 세 가지의 권한이 존재하게 된다.
-* * *
-* 아직 Alpha Version이라 bug가 많습니다. 오류 발생시 issue탭에 추가해 주시면 차기 업데이트에 해당 항목을 추가하겠습니다.
+   * 각 User가 고유의 저장공간을 가짐
+* v1.0.0
+   * 지금 까지 발생한 모든 버그 해결
+   * User간 공유 기능 추가
+   * Admin이 User의 최대 저장 용량 조절 가능
