@@ -16,13 +16,15 @@ from .engine.browser.browser_module import *
 
 SESSION_ID = "user_id"                  # 세션-아이디 키
 SESSION_CURRENT_PATH = "current_path"   # 세션-현재 경로
+SUPER_PATH = "super_path"
 
 ABSOLUTE_ROOT = get_main_root("app/config.json")
 
 #save_session_function
 def save_session(request, user_id, user_pswd):
-    request.session[SESSION_ID] = user_id
-    request.session[SESSION_CURRENT_PATH] = '/'
+    request.session[SESSION_ID] = user_id                       # User id
+    request.session[SESSION_CURRENT_PATH] = '/'                # current path
+    request.session[SUPER_PATH] = f'{ABSOLUTE_ROOT}/{user_id}' # super_path (absolute path)
 
 # Create your views here.
 def login_page(request):
@@ -43,6 +45,12 @@ def login(request):
             return HttpResponseRedirect(reverse('login-failed'))
         else:
             save_session(request, login_id, login_pswd)
+
+            # 최상위 디렉토리가 존재하는 지 검토
+            super_root = f'{ABSOLUTE_ROOT}/{login_id}/'
+            if os.path.isdir(super_root) == False:
+                os.mkdir(super_root)
+
             return HttpResponseRedirect(reverse('main-browser'))
 
 # If login Failed
@@ -61,6 +69,7 @@ def main_browser(request):
     try:
         user_id = request.session[SESSION_ID]
         current_path = request.session[SESSION_CURRENT_PATH]
+        super_path = request.session[SUPER_PATH]
     except Exception as e:
         # Key가 없는 경우 이는 불법으로 접근한 경우
         return HttpResponseRedirect(reverse('access-denied'))
@@ -75,13 +84,15 @@ def main_browser(request):
             current_path = current_path + new_root + '/'
         elif is_back == 1:
             path_tokens = current_path.split('/')
+
             # is not super root
-            if len(path_tokens) > 2:
+            if f'{super_path}{current_path}' != super_path+"/":
+                print(path_tokens)
                 del path_tokens[-2]
                 
                 # is super root after remove path
                 if len(path_tokens) == 2:
-                    current_path = "/"
+                    current_path = f"/"
                 else:
                     current_path = "/"
                     for path in path_tokens:
@@ -91,7 +102,7 @@ def main_browser(request):
 
     # Session에 갱신
     request.session[SESSION_CURRENT_PATH] = current_path
-    root = f'{ABSOLUTE_ROOT}{current_path}'
+    root = f'{super_path}{current_path}'
     try:
         file_list = get_list(root)
     except FileNotFoundError: # Refresh
@@ -173,6 +184,10 @@ def adduser(request):
         # Update new user
         new_user = User(userId=new_id, pswd=new_pswd)
         new_user.save()
+
+        # Make New Directory Of New User
+        os.mkdir(f'{ABSOLUTE_ROOT}/{new_id}')
+
         return HttpResponseRedirect(reverse('main-setting'))
     else:
         return HttpResponseRedirect(reverse('access-denied'))
@@ -211,6 +226,12 @@ def deleteuser(request):
     if(request.method == "POST") and (SESSION_ID in request.session) and (request.session[SESSION_ID] == "admin"):
         target_id = request.POST['user-id']
 
+        # Remove All File
+        target_super_path = f'{ABSOLUTE_ROOT}/{target_id}'
+        
+        if os.path.isdir(target_super_path):
+            shutil.rmtree(target_super_path)
+
         if len(User.objects.filter(userId=target_id)) != 0:
             target_user = User.objects.filter(userId=target_id).first()
             target_user.delete()
@@ -222,10 +243,17 @@ def deleteuser(request):
 
 # Download File
 def download_file(request):
+
+    try:
+        current_path = request.session[SESSION_CURRENT_PATH]
+        super_path = request.session[SUPER_PATH]
+    except Exception:
+        return HttpResponseRedirect(reverse('access-denied'))
+
+    
     if request.method == "GET":
         target_file = request.GET['selected-item']
-        current_path = request.session[SESSION_CURRENT_PATH]
-        full_root = f'{ABSOLUTE_ROOT}{current_path}{target_file}'
+        full_root = f'{super_path}{current_path}{target_file}'
 
         if os.path.exists(full_root): 
             content_type, _ = mimetypes.guess_type(full_root)
@@ -243,6 +271,7 @@ def download_multiple(request):
         # Get Datas
         try:
             current_path = request.session[SESSION_CURRENT_PATH]
+            super_path = request.session[SUPER_PATH]
             user_id = request.session[SESSION_ID]
         except Exception:
             return HttpResponseRedirect(reverse('access-denied'))
@@ -252,7 +281,7 @@ def download_multiple(request):
         
         # Multiple File Algorithm
         target_zip_file = f'{user_id}-download.zip'
-        get_file_archive(target_zip_file, selected_directory_list, selected_file_list, ABSOLUTE_ROOT, current_path)
+        get_file_archive(target_zip_file, selected_directory_list, selected_file_list, super_path, current_path)
     
         # Release zip file
         content_type, _ = mimetypes.guess_type(target_zip_file)
@@ -276,13 +305,14 @@ def upload_file(request):
         # Get Current Root
         try:
             current_path = request.session[SESSION_CURRENT_PATH]
+            super_path = request.session[SUPER_PATH]
         except Exception:
             return HttpResponseRedirect(reverse('access-denied'))
 
         files = request.FILES.getlist('upload-files')
         for file_data in files:
             filename = str(file_data)
-            full_path = ABSOLUTE_ROOT + current_path + filename
+            full_path = f'{super_path}{current_path}{filename}'
             
             with open (full_path, 'wb') as f:
                 for chunk in file_data.chunks():
@@ -298,11 +328,12 @@ def make_new_directory(request):
     if request.method == "POST":
         try:
             current_path = request.session[SESSION_CURRENT_PATH]
+            super_path = request.session[SUPER_PATH]
         except Exception:
             return HttpResponseRedirect(reverse('access-denied'))
 
         new_directory_name = request.POST['new-directory-name']
-        full_path = ABSOLUTE_ROOT + current_path + new_directory_name
+        full_path = f'{super_path}{current_path}' + new_directory_name
 
         # Search same name of file
         if os.path.isdir(full_path):
@@ -319,6 +350,7 @@ def delete_datas(request):
     if request.method == "POST":
         try:
             current_path = request.session[SESSION_CURRENT_PATH]
+            super_path = request.session[SUPER_PATH]
         except Exception:
             return HttpResponseRedirect(reverse('access-denied'))
 
@@ -329,13 +361,13 @@ def delete_datas(request):
         for target in deleted_directory_list:
             if target == '':
                 continue
-            directory_full_path = ABSOLUTE_ROOT + current_path + target
+            directory_full_path = f'{super_path}{current_path}'+ target
             if os.path.isdir(directory_full_path):
                 shutil.rmtree(directory_full_path)
         
         # Remove File
         for target in deleted_file_list:
-            file_full_path = ABSOLUTE_ROOT + current_path + target
+            file_full_path = f'{super_path}{current_path}' + target
             if os.path.isfile(file_full_path):
                 os.remove(file_full_path)
 

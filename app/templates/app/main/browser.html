@@ -72,7 +72,9 @@
             <ul class="list-group list-group-horizontal directory-layer">
                 <li class="list-group-item list-group-item-primary col-name">Name</li>
                 <li class="list-group-item list-group-item-primary col-create">create</li>
+                <!-- Deprecated 
                 <li class="list-group-item list-group-item-primary col-user">User</li>
+                -->
                 <li class="list-group-item list-group-item-primary col-size">Size</li>
             </ul>
 
@@ -90,7 +92,9 @@
                     <li class="list-group-item col-create">
                         ..
                     </li>
+                    <!-- Deprecated 
                     <li class="list-group-item col-user">None</li>
+                    -->
                     <li class="list-group-item col-size">0 byte</li>
                 </ul>
             {% endif %}
@@ -113,7 +117,9 @@
                             {{ file.create_date.year }}/{{ file.create_date.month }}/{{ file.create_date.date }} 
                             {{ file.create_date.hour }}:{{ file.create_date.min }}:{{ file.create_date.sec }}
                         </li>
+                        <!-- Deprecated 
                         <li class="list-group-item col-user">{{ file.owner }}</li>
+                        -->
                         <li class="list-group-item col-size">{{ file.size }} Files</li>
                     </ul>
                 {% else %}   
@@ -133,7 +139,9 @@
                             {{ file.create_date.year }}/{{ file.create_date.month }}/{{ file.create_date.date }} 
                             {{ file.create_date.hour }}:{{ file.create_date.min }}:{{ file.create_date.sec }}
                         </li>
+                        <!-- Deprecated
                         <li class="list-group-item col-user">{{ file.owner }}</li>
+                         -->
                         {% if file.size_type == "byte" %}
                             <li class="list-group-item col-size">{{ file.size }} byte</li>
                         {% elif file.size_type == "KB" %}
