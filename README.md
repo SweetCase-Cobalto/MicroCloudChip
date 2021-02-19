@@ -28,7 +28,7 @@
 ### As User 
 * Docker Container
     * ```shell
-        $ sudo docker run -it -d -p 8000:8000 --name [아무거나] -e IP=0.0.0.0 -e PORT=8000 recomadock/microcloudchip:0.2.0
+        $ sudo docker run -it -d -p 8000:8000 --name [아무거나] -e IP=0.0.0.0 -e PORT=8000 recomadock/microcloudchip:0.4.0
         ```
     * 정상적으로 완료되었으면 chrome으로 hostname:8000/microcloudchip로 접속하면 사용 가능합니다.
     * [참고](https://hub.docker.com/r/recomadock/microcloudchip/tags?page=1&ordering=last_updated)
