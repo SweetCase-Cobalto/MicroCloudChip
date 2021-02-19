@@ -14,7 +14,6 @@ urlpatterns = [
     # Main Page
     path(r'main/browser', views.main_browser, name='main-browser'),
     path(r'main/setting', views.main_setting, name='main-setting'),
-    path(r'main/about', views.main_about, name='main-about'),
 
     # Browser Section
     re_path(r'download/$', views.download_file),

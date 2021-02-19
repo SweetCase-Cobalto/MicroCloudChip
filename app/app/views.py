@@ -144,16 +144,6 @@ def main_setting(request):
     context = {"type": "setting", "user_id": user_id, "user_list": user_list}
     return render(request, 'app/main.html', context)
 
-def main_about(request):
-    # 어바웃 페이지
-    try:
-        user_id = request.session[SESSION_ID]
-    except Exception:
-        return HttpResponseRedirect(reverse('access-denied'))
-
-    context = {"type": "about", "user_id": user_id}
-    return render(request, 'app/main.html', context)
-
 # Setting Section
 def add_user_page(request):
     try:
