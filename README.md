@@ -35,6 +35,7 @@
 * Run By Source Code 
     * ```shell
         $ sudo apt install -y vim gcc make zlib1g-dev zlib1g
+        $ sudo apt install python3-venv
         $ git clone https://github.com/SweetCase-BakHwa-Project/MicroCloudChip.git
         $ cd MicroCloudChip/bin
         $ perl install.pl
