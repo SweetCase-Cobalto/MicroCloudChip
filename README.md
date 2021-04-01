@@ -60,11 +60,12 @@ $ python manage.py runserver
 ```
 * 정상적으로 작동이 되었으면 chrome으로 localhost:8000/microcloudchip으로 접속이 가능합니다.
 * * *
-## 업데이트 예정인 항목
-* v0.4.x...
-    * 디버깅
-    * Linux에서 Service 등록가능 및 저장소 루트 선택 기능 추가(처음 설치 시)
-* v1.0.0
-   * User간 공유 기능 추가
-   * Admin이 User의 최대 저장 용량 조절 가능
-   * Docker에서 공유 디렉토리 활용 가능
+#### Second Edition 기획중 입니다.
+## ~~업데이트 예정인 항목~~
+* ~~v0.4.x...~~
+    * ~~디버깅~~
+    * ~~Linux에서 Service 등록가능 및 저장소 루트 선택 기능 추가(처음 설치 시)~~
+* ~~v1.0.0~~
+   ~~* User간 공유 기능 추가~~
+   ~~* Admin이 User의 최대 저장 용량 조절 가능~~
+   ~~* Docker에서 공유 디렉토리 활용 가능~~
